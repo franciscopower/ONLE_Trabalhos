@@ -1,0 +1,98 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\begin{document}
+
+\subsection{Impressão 3D}
+
+Variaveis de projeto:
+$$ X = 
+\begin{bmatrix}
+    a_n \\
+    b_n \\
+    c_n \\
+    d_n \\
+\end{bmatrix}
+$$
+
+Função objetivo: 
+$$
+\text{minimizar: }  
+F(X) =
+\displaystyle\sum_{c=1}^{C}
+\left( 
+\displaystyle\sum_{n=1}^{N-1} 
+\left( 
+\sqrt{ \left( c_{n+1} - a_n \right)^2 + \left( d_{n+1} - b_n \right)^2} \right)
+ + \sqrt{ \left( c_1 - a_N \right)^2 + \left( d_1 - b_N \right)^2}
+\right)_c / v
+$$
+
+Sujeito a:
+
+$$
+R(X) = \left
+\{ \begin{matrix} 
+x_n \in [3, x_{max}-3] \\
+y_n \in [3, y_{max}-3] \\
+f_n(x,y) \in [0, z_{max}] \\
+\sqrt{ \left( c_{n+1} - a_n \right)^2 + \left( d_{n+1} - b_n \right)^2} > 3 \\
+f_n(x,y) \land f_{n+1}(x,y) = \varnothing,\ \forall\ n \in \mathbb{N} \cap [1,N-1]
+\end{matrix} 
+\right.
+$$
+
+Legenda:
+\begin{itemize}
+\item $(a,b)$ - coordenadas do ponto de partida do extrusor de uma peça $n$
+\item $(c,d)$ - coordenadas do ponto de chegada do extrusor a uma peça $n$
+\item $N$ - número de peças a imprimir
+\item $C$ - número de camadas de cada peça
+\item $f(x,y)_n$ - função de forma de uma peça $n$
+\end{itemize}
+
+\subsection{Internet 5G}
+
+Variaveis de projeto:
+$$ X = 
+\begin{bmatrix}
+    x_n \\
+    y_n \\
+\end{bmatrix}
+$$
+
+Função objetivo:
+
+$$
+\text{maximizar: } 
+F(X) = \frac{
+\displaystyle\int\limits_A
+\left(
+\frac{P}{4 \pi \left( ( x-x_n ) ^2 + ( y-y_n ) ^2 \right) } 
+\right)_{max} dA }{A}
+$$
+
+Sujeito a:
+
+$$
+R(X) = \left
+\{ \begin{matrix} 
+(x_n,y_n) \in A_{permitida} \\ 
+\frac{P}{4 \pi \left( ( x-x_n ) ^2 + ( y-y_n ) ^2 \right) } \geq I_{min} \end{matrix} 
+\right.
+$$
+
+
+Legenda:
+\begin{itemize}
+\item $P$ - potência do sinal emitido pelo router
+\item $(x_n,y_n)$ - coordenadas de um router $n$
+\item $A$ - Área do espaço onde se pretende fazer a cobertura de internet
+\item $I_{min}$ - Intensidade mínima do sinal
+\item $A_{permitida}$ - Área onde há permissão para colocar um router
+\end{itemize}
+
+\end{document}
