@@ -5,10 +5,24 @@ import cv2 as cv
 from functools import partial
 import math
 
-p1 = None
-p2 = None
-drawing = False
-point = (200,200)
+src_pos = (5, 5)
+moving = False
+density = 1
+
+def onClick(event, x, y, flags, param):
+    global moving, src_pos, density
+    if event == cv.EVENT_LBUTTONDOWN:
+        src_pos = (x,y)
+        moving = True
+    elif event == cv.EVENT_LBUTTONUP:
+        src_pos = (x,y)
+        density = 1
+        moving = False
+    
+    if event == cv.EVENT_MOUSEMOVE and moving:
+        src_pos = (x,y)
+        density = 2
+        
                             
 def calculateIntensity(src_pos, point, power, bump_map):
     
@@ -31,37 +45,43 @@ def calculateIntensity(src_pos, point, power, bump_map):
     return intensity
 
 def main():
-    window_name = "window"
+    light_window = "Light"
+    bump_map_window = "Bump Map"
     
-    bump_map = cv.imread('teste.png',0)
-    bump_map = cv.resize(bump_map, (100,100))
+    bump_map = cv.imread('bump_map2.png',0)
+    
+    cv.imshow(bump_map_window, bump_map)
+    original_size = bump_map.shape
+    scale_factor = 4
+    
+    bump_map = cv.resize(bump_map, (bump_map.shape[1]/scale_factor, bump_map.shape[0]/scale_factor))
     
     final_visualization = np.zeros(bump_map.shape)
     intensity_values = np.zeros(bump_map.shape)
     
-    power = 10000
-    src_pos = (bump_map.shape[1]/2,bump_map.shape[0]/2)
-    density = 1
-    
-    cv.imshow(window_name, bump_map)
-    
-    for l in range(0,bump_map.shape[0],density):
-        for c in range(0,bump_map.shape[1],density):
-            intensity = calculateIntensity(src_pos, (c,l), power, bump_map)
-            intensity_values[l][c] = intensity
-            
-    final_visualization = intensity_values*255*4*math.pi/power
-    
-    bump_map = cv.resize(bump_map, (500,500))
-    final_visualization = cv.resize(final_visualization, (500,500))
-    cv.imshow(window_name, final_visualization)    
-    cv.imshow('bump map', bump_map)
-    
-    # cv.imwrite('Ray_tracer_test', final_visualization)
-    # cv.resizeWindow('bump map', 600,600)
-    
+    power = 100
+    # src_pos = (bump_map.shape[1]/2,bump_map.shape[0]/2)
+    # density = 2
       
-    cv.waitKey(0)
+    k = ''
+    while k != ord('q'):
+                
+        cv.setMouseCallback(light_window, onClick)
+        
+        intensity_values = np.zeros(bump_map.shape)
+
+        for l in range(0,bump_map.shape[0]-1,density):
+            for c in range(0,bump_map.shape[1]-1,density):
+                intensity = calculateIntensity((src_pos[0]/scale_factor, src_pos[1]/scale_factor), (c,l), power, bump_map)
+                intensity_values[l][c] = intensity
+                
+        final_visualization = intensity_values*255/power *10
+
+        final_visualization = cv.resize(final_visualization, (original_size[1], original_size[0]))
+
+        cv.imshow(light_window, final_visualization)    
+
+        k = cv.waitKey(1)
 
         
         
