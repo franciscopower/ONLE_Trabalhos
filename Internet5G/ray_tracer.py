@@ -74,7 +74,7 @@ def calculateIntensity(src_pos, point, power, bump_map):
 
     return intensity
 
-def main():
+def intensityMatrix():
     light_window = "Light"
     bump_map_window = "Bump Map"
     
@@ -116,9 +116,6 @@ def main():
 
         k = cv.waitKey(1)
 
-        
-        
-
 
 if __name__ == '__main__':
-    main()
+    intensityMatrix()
