@@ -16,7 +16,7 @@ def calculateIntensity(src_pos, point, power, bump_map):
         pt_dist[i,:] = [t[0], t[1], ((t[0]-point[0])**2 + (t[1]-point[1])**2)]
         
     # sort distances and points:
-    pt_dist = pt_dist[np.lexsort((pt_dist[:,1], ))]
+    pt_dist = pt_dist[np.lexsort((pt_dist[:,2], ))]
 
 
     for d in range(0,pt_dist.shape[0]):
