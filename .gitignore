@@ -131,6 +131,5 @@ dmypy.json
 
 # files created by programs
 *.json
-*.png
 
 desenhos/
