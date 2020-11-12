@@ -31,7 +31,7 @@ def calculateIntensity(src_pos, point, power, bump_map):
 
         if (x,y) == (point):
             intensity = power
-        elif bump_map[x,y] != 0:
+        elif bump_map[point[1],point[0]] != 0:
             intensity = 0
         elif line_of_sight:
             intensity = power / ( 4 * math.pi * pt_dist[d][2] )
@@ -41,7 +41,7 @@ def calculateIntensity(src_pos, point, power, bump_map):
 
     return intensity
 
-def main():
+def intensityMatrix():
 
     light_window = "Light"
     bump_map_window = "Bump Map"
@@ -82,4 +82,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    intensityMatrix()
