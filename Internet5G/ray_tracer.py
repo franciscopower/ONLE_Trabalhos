@@ -1,9 +1,10 @@
-#!/user/bin/python
+#!/usr/bin/python
 
-import numpy as np
-import cv2 as cv
-from functools import partial
 import math
+from functools import partial
+
+import cv2 as cv
+import numpy as np
 
 src_pos = (5, 5)
 moving = False
