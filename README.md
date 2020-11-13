@@ -30,5 +30,4 @@ Trabalhos realizados por
 - Francisco Power
 - Pedro Rolo
 
-no âmbito da disciplina de Otimização Não Linear em Engenharia, Mestrado Integrado em Engenharia Mecânica, Universidade de Aveiro.
-
+No âmbito da disciplina de Otimização Não Linear em Engenharia, Mestrado Integrado em Engenharia Mecânica, Universidade de Aveiro.
