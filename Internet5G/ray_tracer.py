@@ -123,11 +123,14 @@ def intensityMatrix():
 
         final_visualization = cv.resize(final_visualization, (original_size[1], original_size[0]))
 
-        cv.imshow(light_window, final_visualization)    
+        cv.imshow(light_window, final_visualization) 
+        
+        if k == ord('r'):
+            print(result_objctive_function(bump_map, intensity_values))
 
         k = cv.waitKey(1)
 
-    print (result_objctive_function(bump_map, intensity_values))
+        
 
 
 if __name__ == '__main__':
