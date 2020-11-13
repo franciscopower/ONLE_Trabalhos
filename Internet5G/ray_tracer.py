@@ -74,6 +74,17 @@ def calculateIntensity(src_pos, point, power, bump_map):
 
     return intensity
 
+def result_objctive_function(bump_map,matiz):
+    _, bump_map_ths = cv.threshold(bump_map, 5, 255, cv.THRESH_BINARY_INV)
+
+    aria_disponivel = np.sum(bump_map_ths / 255)
+
+    intensidade_total = np.sum(matiz)
+
+    funcao_objtivo = intensidade_total / aria_disponivel
+
+    return funcao_objtivo
+
 def intensityMatrix():
     light_window = "Light"
     bump_map_window = "Bump Map"
@@ -115,6 +126,8 @@ def intensityMatrix():
         cv.imshow(light_window, final_visualization)    
 
         k = cv.waitKey(1)
+
+    print (result_objctive_function(bump_map, intensity_values))
 
 
 if __name__ == '__main__':
