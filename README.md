@@ -20,9 +20,9 @@ O programa terá que ter em consideração o percurso da extrusora em todas as c
 
 ### Programas usados para análise
 
-- **Ultimaker Cura** - Programa de preparação de impressões 3D da Ultimaker, permite a simulação de tempos de impressão.
+- **Ultimaker Cura** - Programa de preparação de impressões 3D da Ultimaker, permite a criação do g-code.
     - https://github.com/Ultimaker/Cura
-- **Cura Interface** - Programa a ser desenvolvido para o efeito, permitirá o acesso, através de código, aos inputs e outputs da *Ultimaker Cura*
+- **Cura Interface** - Programa a ser desenvolvido para o efeito, permitirá a aplicaço de operaçes de translaço e rotação aos pontos criticos da peça a partir do g-code fornecido
 
  ***
 
