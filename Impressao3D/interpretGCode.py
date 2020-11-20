@@ -3,12 +3,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-
 def interpretGCode():
 
     path = 'Impressao3D/barcominimalista.gcode'
     f = open(path, 'r')
     data = f.read()
+    f.close()
 
     line = data.split('\n')
     
@@ -69,10 +69,10 @@ def interpretGCode():
             all_pts = np.append(all_pts, pt, 1)
     
     out_pts = np.append(out_pts, pt, 1)
-          
+        
+    # plot points      
     plt.figure()
     ax = plt.axes(projection='3d')
-
     ax.plot3D(all_pts[0,:], all_pts[1,:], all_pts[2,:])
     plt.show()
        
