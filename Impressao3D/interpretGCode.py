@@ -72,7 +72,7 @@ def interpretGCode(path):
     
     return all_pts, in_pts, out_pts    
     
-def iterateFiles(directory):
+def getObjectsPts(directory):
     objs = []
     
     for filename in os.listdir(directory):
@@ -85,11 +85,12 @@ def iterateFiles(directory):
             
     return objs
             
+
     
         
 if __name__ == "__main__":
     
-    print(iterateFiles('Impressao3D/GCode/'))
+    print(getObjectsPts('Impressao3D/GCode/'))
     
     
         
