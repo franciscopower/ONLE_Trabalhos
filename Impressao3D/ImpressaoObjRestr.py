@@ -33,7 +33,7 @@ def objFunction(objs):
                         d_min = d
                         obj_n = n
             
-                    d_total += d_min
+            d_total += d_min
 
             tested_objs.append(obj_n)
                 
