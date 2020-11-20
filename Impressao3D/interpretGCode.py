@@ -2,10 +2,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import os
 
-def interpretGCode():
+def interpretGCode(path):
 
-    path = 'Impressao3D/barcominimalista.gcode'
     f = open(path, 'r')
     data = f.read()
     f.close()
@@ -69,13 +69,34 @@ def interpretGCode():
             all_pts = np.append(all_pts, pt, 1)
     
     out_pts = np.append(out_pts, pt, 1)
-        
-    # plot points      
-    plt.figure()
-    ax = plt.axes(projection='3d')
-    ax.plot3D(all_pts[0,:], all_pts[1,:], all_pts[2,:])
-    plt.show()
-       
+    
+    return all_pts, in_pts, out_pts    
+    
+def iterateFiles(directory):
+    objs = []
+    
+    for filename in os.listdir(directory):
+        if filename.endswith('.gcode'):
+            path = (os.path.join(directory, filename))
+            
+            all_pts, in_pts, out_pts = interpretGCode(path)
+    
+            objs.append([all_pts, in_pts, out_pts])
+            
+    return objs
+            
+    
         
 if __name__ == "__main__":
-    interpretGCode()
+    
+    print(iterateFiles('Impressao3D/GCode/'))
+    
+    
+        
+        
+        
+    # plot points      
+    # plt.figure()
+    # ax = plt.axes(projection='3d')
+    # ax.plot3D(all_pts[0,:], all_pts[1,:], all_pts[2,:])
+    # plt.show()
