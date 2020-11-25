@@ -101,3 +101,46 @@ if __name__ == "__main__":
     # ax = plt.axes(projection='3d')
     # ax.plot3D(all_pts[0,:], all_pts[1,:], all_pts[2,:])
     # plt.show()
+    
+# #! LIST OBJS
+# objs = [
+#     [
+#         np.array([
+#             [x1, x2, ...],
+#             [y1, y2, ...],
+#             [z1, z2, ...],
+#         ]), #!all_pts
+#         np.array([
+#             [x1, x2, ...],
+#             [y1, y2, ...],
+#             [z1, z2, ...],
+#         ]), #!in_pts
+#         np.array([
+#             [x1, x2, ...],
+#             [y1, y2, ...],
+#             [z1, z2, ...],
+#         ]), #!out_pts
+#     ],
+#     [
+#         np.array([
+#             [x1, x2, ...],
+#             [y1, y2, ...],
+#             [z1, z2, ...],
+#         ]), #!all_pts
+#         np.array([
+#             [x1, x2, ...],
+#             [y1, y2, ...],
+#             [z1, z2, ...],
+#         ]), #!in_pts
+#         np.array([
+#             [x1, x2, ...],
+#             [y1, y2, ...],
+#             [z1, z2, ...],
+#         ]), #!out_pts
+#     ],
+#     ...
+# ]
+# cada objeto: objs[i]
+# _todos os pontos de um objeto: objs[i][0]
+# um determinado ponto de um objeto: objs[i][0][:,n]
+# coordenada x de um determinado ponto de um objeto: objs[i][0][0,n]
