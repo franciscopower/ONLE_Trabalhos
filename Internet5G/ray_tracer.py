@@ -53,7 +53,7 @@ def intensityMatrix(bump_map,src_pos,power,scale_factor):
     original_size = bump_map.shape
     #scale_factor = 4
 
-    bump_map = cv.resize(bump_map, (int(bump_map.shape[1] / scale_factor), int(bump_map.shape[0] / scale_factor)))
+    #bump_map = cv.resize(bump_map, (int(bump_map.shape[1] / scale_factor), int(bump_map.shape[0] / scale_factor)))
     
     density=1
     intensity_values = np.zeros(bump_map.shape)
@@ -87,5 +87,4 @@ def intensityMatrix(bump_map,src_pos,power,scale_factor):
         
 
 
-if __name__ == '__main__':
-    intensityMatrix()
+
