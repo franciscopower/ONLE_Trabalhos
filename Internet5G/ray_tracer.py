@@ -42,44 +42,14 @@ def calculateIntensity(src_pos, point, power, bump_map):
     return intensity
 
 def intensityMatrix(bump_map,src_pos,power,scale_factor):
-
-    #light_window = "Light"
-    #bump_map_window = "Bump Map"
-    #load windows
-    #bump_map = cv.imread('bump_map1.png', 0)
-    #show bumpmap
-    #cv.imshow(bump_map_window, bump_map)
-    #downscale bumpmap
-    original_size = bump_map.shape
-    #scale_factor = 4
-
-    #bump_map = cv.resize(bump_map, (int(bump_map.shape[1] / scale_factor), int(bump_map.shape[0] / scale_factor)))
     
     density=1
     intensity_values = np.zeros(bump_map.shape)
-
-    #router properties
-
-    #power = 100
-    # list of position of router
-
-    #src_pos=[(30,10), (50, 50), (100,100)]
-    # src_pos=[(30,10)]
-
 
     # calculate intensity matrix
     for l in range(0, bump_map.shape[0] - 1, density):
         for c in range(0, bump_map.shape[1] - 1, density):
             intensity = calculateIntensity(src_pos,(c,l), power, bump_map)
             intensity_values[l][c] = intensity
-
-    #visualize result
-    #final_visualization = intensity_values * 255 / power * 10
-    #final_visualization = cv.resize(final_visualization, (original_size[1], original_size[0]))
-
-    #cv.imshow(light_window, final_visualization)
-
-    #cv.waitKey(0)
-
 
     return (intensity_values)
