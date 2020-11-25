@@ -29,20 +29,21 @@ def test():
     trans_list = [
         [20,0,0],
         [0,20,np.pi/4],
-        [20,20,0],
-        [0,0,0],
+        [20,60,0],
+        [-40,50,np.pi/4],
     ]
     
     new_objs = moveObjects(objs, trans_list)
-    print(len(new_objs))
-    
-    all_pts = new_objs[1][0]
-    print(all_pts.shape)
     
     # plot points      
     plt.figure()
     ax = plt.axes(projection='3d')
-    ax.plot3D(all_pts[0,:], all_pts[1,:], all_pts[2,:]) 
+    for o in new_objs:
+        ax.plot3D(o[0][0,:], o[0][1,:], o[0][2,:]) 
+
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+
     plt.show()
     
 if __name__ == "__main__":
