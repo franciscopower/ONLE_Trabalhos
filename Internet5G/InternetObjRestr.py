@@ -41,7 +41,7 @@ def main():
 
     # Dados ---------------------- 
     bump_map = cv.imread('bump_map1.png', 0)
-    src_pos=[(0,0), (50, 50), (100,100)]
+    src_pos=[(0,0), (50, 50), (100,100)] #! isto ja esta a considerar o scale factor... mas deveria?
     #allowed_position = cv.imread('allowed_position.png', 0)
     # _, allowed_position = cv.threshold(allowed_position, 5, 255, cv.THRESH_BINARY)
     power = 100

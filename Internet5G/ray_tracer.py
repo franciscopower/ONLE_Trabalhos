@@ -13,7 +13,7 @@ def calculateIntensity(src_pos, point, power, bump_map):
 
     #add distances to points
     for i,t in enumerate(src_pos):
-        pt_dist[i,:] = [t[0], t[1], ((t[0]-point[0])**2 + (t[1]-point[1])**2)]
+        pt_dist[i,:] = [t[0], t[1], ((t[0]-point[0])**2 + (t[1]-point[1])**2)] #! avaliar o efeito do scale factor
         
     # sort distances and points:
     pt_dist = pt_dist[np.lexsort((pt_dist[:,2], ))]
