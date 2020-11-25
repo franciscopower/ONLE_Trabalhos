@@ -83,8 +83,3 @@ def intensityMatrix(bump_map,src_pos,power,scale_factor):
 
 
     return (intensity_values)
-        
-        
-
-
-
