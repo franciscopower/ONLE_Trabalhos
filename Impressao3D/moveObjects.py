@@ -91,16 +91,25 @@ def showObjects(new_objs):
 def test():
     objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
     
+    new_objs = []
+    temp_list = []
+
+    for l in objs:
+        for item in l:
+            temp_list.append(np.copy(item))
+        new_objs.append(temp_list)
+        temp_list = []
+    
     trans_list = [
         [20,0,0],
-        [0,20,np.pi/4],
         [20,60,0],
         [-40,50,np.pi/4],
+        [-20,-20,0],
     ]
     
-    new_objs = moveObjects(objs, trans_list)
+    new_objs = moveObjects(new_objs, trans_list)
     showObjects(new_objs)
-    
+    showObjects(objs)
     
 if __name__ == "__main__":
     test()
