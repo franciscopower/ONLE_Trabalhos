@@ -17,7 +17,7 @@ def objFunction(objs):
         
         #comecar no primeiro objeto, ir de objeto em objeto
         while True: 
-            if n_valid_objs == 1:
+            if n_valid_objs <= 1:
                 break
             n_valid_objs -= 1
             obj_idx.pop(obj_idx.index(obj_n))
@@ -32,7 +32,7 @@ def objFunction(objs):
                 
             for i in obj_idx:
                 #check if object has current layer
-                if objs[i][1].shape[1] == l:
+                if objs[i][1].shape[1] == l+1:
                     try:
                         total_obj_idx.pop(total_obj_idx.index(i))
                     except:
@@ -111,6 +111,7 @@ def main():
         [20,0,0],
         [20,60,0],
         [-40,50,np.pi/4],
+        [-20,-20,0],
     ]
     
     new_objs = moveObjects.moveObjects(objs, trans_list)
