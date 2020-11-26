@@ -11,10 +11,9 @@
 Variaveis de projeto:
 $$ X = 
 \begin{bmatrix}
-    a_n \\
-    b_n \\
-    c_n \\
-    d_n \\
+    x_{t,n} \\
+    y_{t,n} \\
+    \theta _n \\
 \end{bmatrix}
 $$
 
@@ -47,12 +46,48 @@ $$
 
 Legenda:
 \begin{itemize}
+\item $x_{t,n}$ - valor x de translação do ponto central da peça $n$
+\item $x_{t,n}$ - valor y de translação do ponto central da peça $n$
+\item $\theta_{n}$ - valor do anguloo de rotação da peça $n$
 \item $(a,b)$ - coordenadas do ponto de partida do extrusor de uma peça $n$
 \item $(c,d)$ - coordenadas do ponto de chegada do extrusor a uma peça $n$
 \item $N$ - número de peças a imprimir
 \item $C$ - número de camadas de cada peça
 \item $f(x,y)_n$ - função de forma de uma peça $n$
 \end{itemize}
+
+Dependencia das variaveis da função objetivo das variaveis de projeto:
+
+$$
+\begin{bmatrix}
+a\\
+b\\
+f(a,b)\\
+1\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 & 0 & x_t\\
+0 & 1 & 0 & y_t\\
+0 & 0 & 1 & 0\\
+0 & 0 & 0 & 1
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+cos(\theta) & -sin(\theta) & 0 & 0\\
+sin(\theta) & cos(\theta) & 0 & 0\\
+0 & 0 & 1 & 0\\
+0 & 0 & 0 & 1
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+a_0\\
+b_0\\
+f(a_0,b_0)\\
+1\\
+\end{bmatrix}
+$$
+
 
 \subsection{Internet 5G}
 
