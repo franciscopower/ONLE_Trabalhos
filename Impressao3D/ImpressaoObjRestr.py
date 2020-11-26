@@ -1,5 +1,6 @@
 import numpy as np
 import interpretGCode
+import moveObjects
 
 def objFunction(objs):
     n_layers = [o[1].shape[1] for o in objs] #numero de camadas de cada objeto
@@ -59,22 +60,25 @@ def objFunction(objs):
        
     return d_total
 
-def restriction(objs, d_min):
+def restrictionMinDist(objs, d_min):
     
-    point_interval = 3
+    points_per_layer = 10 # attention to the interval! This is big right now
+    layer_interval = 10
     
     n_layers = [o[1].shape[1] for o in objs] #numero de camadas de cada objeto
 
-    for l in range(0, max(n_layers)): #[o1 o2 o3 o4 o5]
+    for l in range(0, max(n_layers), layer_interval):
         for i,ob in enumerate(objs):
             if i == len(objs)-1 or l>=ob[1].shape[1]:
                 break
             
             for n in range(i+1, len(objs)):
-                for p1_i in range(0,ob[0].shape[1],point_interval):
+                point_interval1 = int(ob[0].shape[1]/points_per_layer)
+                for p1_i in range(0,ob[0].shape[1],point_interval1):
                     p1 = ob[0][:,p1_i]
                     
-                    for p2_i in range(0,objs[n][0].shape[1], point_interval):
+                    point_interval2 = int(objs[n][1].shape[1]/points_per_layer)
+                    for p2_i in range(0,objs[n][0].shape[1], point_interval2):
                         if l>=objs[n][1].shape[1]:
                             break
                         
@@ -102,10 +106,21 @@ def checkInHotBed(objs, hot_bed_size_x, hot_bed_size_y):
 
 def main():
     objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
-    print(objFunction(objs))
-    print(restriction(objs, 3))
-    print(checkInHotBed(objs, 200, 200))
     
+    trans_list = [
+        [20,0,0],
+        [20,60,0],
+        [-40,50,np.pi/4],
+    ]
+    
+    new_objs = moveObjects.moveObjects(objs, trans_list)
+    
+    print(objFunction(new_objs))
+    print(restrictionMinDist(new_objs, 3))
+    
+    print(checkInHotBed(new_objs, 200, 200))
+    
+    moveObjects.showObjects(new_objs)
 
 if __name__ == "__main__":
     main()
