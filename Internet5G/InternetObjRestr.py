@@ -36,12 +36,14 @@ def restriction_intesity_min(matriz, bump_map, power, value_min):
 
     return value_min>min
 
-
 def main():
 
     # Dados ---------------------- 
-    bump_map = cv.imread('bump_map1.png', 0)
-    src_pos=[(0,0), (50, 50), (100,100)] #! isto ja esta a considerar o scale factor... mas deveria?
+    bump_map = cv.imread('Internet5G/bump_map1.png', 0)
+    src_pos=[
+        (0,0),
+        (120,30),
+        ] # isto ja esta a considerar o scale factor... mas deveria?
     #allowed_position = cv.imread('allowed_position.png', 0)
     # _, allowed_position = cv.threshold(allowed_position, 5, 255, cv.THRESH_BINARY)
     power = 100

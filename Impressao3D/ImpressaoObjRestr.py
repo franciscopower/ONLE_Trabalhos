@@ -107,6 +107,15 @@ def checkInHotBed(objs, hot_bed_size_x, hot_bed_size_y):
 def main():
     objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
     
+    new_objs = []
+    temp_list = []
+
+    for l in objs:
+        for item in l:
+            temp_list.append(np.copy(item))
+        new_objs.append(temp_list)
+        temp_list = []
+    
     trans_list = [
         [20,0,0],
         [20,60,0],
@@ -114,7 +123,7 @@ def main():
         [-20,-20,0],
     ]
     
-    new_objs = moveObjects.moveObjects(objs, trans_list)
+    new_objs = moveObjects.moveObjects(new_objs, trans_list)
     
     print(objFunction(new_objs))
     print(restrictionMinDist(new_objs, 3))
