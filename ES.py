@@ -1,4 +1,4 @@
-import numpy as np, random
+import numpy as np
 from math import gamma, sin, pi
 
 def sphere(x):
@@ -8,9 +8,11 @@ def sphere(x):
 def levy(l, varsize):
     xvar = (gamma(1+l) * sin(pi * l / 2) / gamma((1 + l)/2 * l * 2**((l-1)/2)) )**(2/l)
     yvar = 1
-    x=random.normal(loc=0.0, scale=xvar, size=varsize)
-    y=random.normal(loc=0.0, scale=yvar, size=varsize)
+    x=np.random.normal(loc=0.0, scale=xvar, size=varsize)
+    y=np.random.normal(loc=0.0, scale=yvar, size=varsize)
     v=x/(abs(y)**(1/l))
+    
+    return v
 
 
 def eagleStrategy(problem, param):
@@ -40,7 +42,7 @@ def eagleStrategy(problem, param):
         'pos': None,
         'cost': None,
     }        
-    new_pop = [empty_particle.copy() for _ in range(0, npop)] #! nao sei se esta correto
+    new_pop = [empty_particle.copy() for _ in range(0, npop)]
     new = empty_particle.copy()
     
     #initialize population
@@ -53,9 +55,11 @@ def eagleStrategy(problem, param):
         if pop[i]['cost'] < gbest['cost']:
             gbest['pos'] = pop[i]['pos'].copy()
             gbest['cost'] = pop[i]['cost'].copy()
+            
+    best_cost = []
         
     # main loop
-    for _ in range(0, itermax):
+    for iter in range(0, itermax):
         
         # levy flight
         for i in range(0, npop):
@@ -86,7 +90,15 @@ def eagleStrategy(problem, param):
                             gbest['pos'] = new_pop[i]['pos'].copy()
 
     
-    #! falta terminar
+        pop = pop + new_pop
+        pop = sorted(pop, key=lambda i: i['cost'])
+        pop = pop[0:npop]
+        
+        best_cost[iter] = gbest['cost']
+        
+        alpha = alpha * damp
+        
+    return gbest, best_cost
     
     
     
