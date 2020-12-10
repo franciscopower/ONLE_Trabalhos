@@ -12,7 +12,7 @@ def objectiveFunction(x):
     
     # aplicar penalizacoes externas
     rg = 10
-    gamma = 1
+    gamma = 2
     F = F + rg*max(0, G1(x))**gamma \
         + rg*max(0, G2(x))**gamma \
         + rg*max(0, G3(x))**gamma \
