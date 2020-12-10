@@ -35,7 +35,7 @@ def eagleStrategy(problem, param):
         
     gbest = {
         'pos': None,
-        'cost': None,
+        'cost': np.inf,
     }
     
     empty_particle = {
@@ -49,7 +49,7 @@ def eagleStrategy(problem, param):
     pop = []
     for i in range(0, npop):
         pop.append(empty_particle.copy())
-        pop[i]['pos'] = np.random.uniform(xmin, xmax, nvar)
+        pop[i]['pos'] = np.ones(nvar)#np.random.uniform(xmin, xmax, nvar)
         pop[i]['cost'] = func(pop[i]['pos'])
         
         if pop[i]['cost'] < gbest['cost']:
@@ -59,11 +59,11 @@ def eagleStrategy(problem, param):
     best_cost = []
         
     # main loop
-    for iter in range(0, itermax):
+    for _ in range(0, itermax):
         
         # levy flight
         for i in range(0, npop):
-            new_pop[i]['pos'] = np.min(np.max(pop[i]['pos'] + levy(l, nvar), xmin), xmax)
+            new_pop[i]['pos'] = np.minimum(np.maximum(pop[i]['pos'] + levy(l, nvar), xmin), xmax)
             new_pop[i]['cost'] = func(new_pop[i]['pos'])
             if new_pop[i]['cost'] < pop[i]['cost']:
                 pop[i]['pos'] = new_pop[i]['pos'].copy()
@@ -75,7 +75,7 @@ def eagleStrategy(problem, param):
             for j in range(0, npop):
                 if pop[j]['cost'] < pop[i]['cost']:
                     distance = np.linalg.norm(pop[i]['pos'] - pop[j]['pos'])
-                    new['pos'] = np.min(np.max(pop[i]['pos'] \
+                    new['pos'] = np.minimum(np.maximum(pop[i]['pos'] \
                         + b0 * np.exp(-gamma * distance**2) * (pop[j]['pos'] - pop[i]['pos']) \
                         + alpha * scale * np.random.uniform(-1,1,nvar), xmin), xmax)
                     
@@ -94,7 +94,7 @@ def eagleStrategy(problem, param):
         pop = sorted(pop, key=lambda i: i['cost'])
         pop = pop[0:npop]
         
-        best_cost[iter] = gbest['cost']
+        best_cost.append(gbest['cost'])
         
         alpha = alpha * damp
         
@@ -103,23 +103,28 @@ def eagleStrategy(problem, param):
     
     
 #-----------------------------------------------------
-    
-param = {
-    'itermax': None,
-    'npop': None,
-    'gamma': None,
-    'beta0': None,
-    'alpha': None,
-    'damp': None,
-    'scale': None,
-    'lambda': None,
-}
-
 problem = {
     'costFunction': sphere,
-    'nVar': 10,
+    'nVar': 5,
     'var_min': -5,
     'var_max': 5,   
+}    
+param = {
+    'itermax': 100,
+    'npop': 5,
+    'gamma': 1,
+    'beta0': 1,
+    'alpha': 0.2,
+    'damp': 0.9,
+    'scale': (problem['var_max'] - problem['var_min']),
+    'lambda': 1.5,
 }
+
+gbest, best_cost = eagleStrategy(problem, param)
+print(best_cost)
+print('\nglobal best:')
+print(gbest)
+
+
 
 
