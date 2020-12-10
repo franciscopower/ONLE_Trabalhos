@@ -5,6 +5,11 @@ def sphere(x):
     #! so para testar
     return sum(x**2)
 
+
+def rosenBrock(X, a=1, b=100):
+    x,y=X
+    return ((a-x)**2+b*(y-x**2)**2)
+
 def levy(l, varsize):
     xvar = (gamma(1+l) * sin(pi * l / 2) / gamma((1 + l)/2 * l * 2**((l-1)/2)) )**(2/l)
     yvar = 1
@@ -49,7 +54,7 @@ def eagleStrategy(problem, param):
     pop = []
     for i in range(0, npop):
         pop.append(empty_particle.copy())
-        pop[i]['pos'] = np.ones(nvar)#np.random.uniform(xmin, xmax, nvar)
+        pop[i]['pos'] =np.random.uniform(xmin, xmax, nvar)
         pop[i]['cost'] = func(pop[i]['pos'])
         
         if pop[i]['cost'] < gbest['cost']:
@@ -61,14 +66,14 @@ def eagleStrategy(problem, param):
     # main loop
     for _ in range(0, itermax):
         
-        # levy flight
-        for i in range(0, npop):
-            new_pop[i]['pos'] = np.minimum(np.maximum(pop[i]['pos'] + levy(l, nvar), xmin), xmax)
-            new_pop[i]['cost'] = func(new_pop[i]['pos'])
-            if new_pop[i]['cost'] < pop[i]['cost']:
-                pop[i]['pos'] = new_pop[i]['pos'].copy()
-                pop[i]['cost'] = new_pop[i]['cost'].copy()
-        
+        # # levy flight
+        # for i in range(0, npop):
+        #     new_pop[i]['pos'] = np.minimum(np.maximum(pop[i]['pos'] + levy(l, nvar), xmin), xmax)
+        #     new_pop[i]['cost'] = func(new_pop[i]['pos'])
+        #     if new_pop[i]['cost'] < pop[i]['cost']:
+        #         pop[i]['pos'] = new_pop[i]['pos'].copy()
+        #         pop[i]['cost'] = new_pop[i]['cost'].copy()
+
         
         for i in range(0, npop):
             new_pop[i]['cost'] = np.inf
@@ -104,14 +109,14 @@ def eagleStrategy(problem, param):
     
 #-----------------------------------------------------
 problem = {
-    'costFunction': sphere,
-    'nVar': 5,
+    'costFunction': rosenBrock,
+    'nVar': 2,
     'var_min': -5,
     'var_max': 5,   
 }    
 param = {
-    'itermax': 100,
-    'npop': 5,
+    'itermax': 50,
+    'npop': 1000,
     'gamma': 1,
     'beta0': 1,
     'alpha': 0.2,
