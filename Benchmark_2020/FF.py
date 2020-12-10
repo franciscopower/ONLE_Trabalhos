@@ -21,7 +21,7 @@ def levy(l, varsize):
     return v
 
 
-def eagleStrategy(problem, param):
+def fireFly(problem, param):
     func = problem['costFunction']
     xmin = problem['var_min']
     xmax = problem['var_max']
@@ -115,28 +115,28 @@ def eagleStrategy(problem, param):
     
     
     
-#-----------------------------------------------------
-problem = {
-    'costFunction': rosenBrock,
-    'nVar': 2,
-    'var_min': -5,
-    'var_max': 5,   
-}    
-param = {
-    'itermax': 50,
-    'npop': 20,
-    'gamma': 1,
-    'beta0': 1,
-    'alpha': 0.2,
-    'damp': 0.9,
-    'scale': (problem['var_max'] - problem['var_min']),
-    'lambda': 1.5,
-}
+# #-----------------------------------------------------
+# problem = {
+#     'costFunction': rosenBrock,
+#     'nVar': 2,
+#     'var_min': -5,
+#     'var_max': 5,   
+# }    
+# param = {
+#     'itermax': 50,
+#     'npop': 20,
+#     'gamma': 1,
+#     'beta0': 1,
+#     'alpha': 0.2,
+#     'damp': 0.9,
+#     'scale': (problem['var_max'] - problem['var_min']),
+#     'lambda': 1.5,
+# }
 
-gbest, best_cost = eagleStrategy(problem, param)
-print(best_cost)
-print('\nglobal best:')
-print(gbest)
+# gbest, best_cost = fireFly(problem, param)
+# print(best_cost)
+# print('\nglobal best:')
+# print(gbest)
 
 
 
