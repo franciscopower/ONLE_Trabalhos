@@ -1,4 +1,4 @@
-import numpy as np, random
+import numpy as np
 from math import gamma, sin, pi
 
 def sphere(x):
@@ -8,8 +8,8 @@ def sphere(x):
 def levy(l, varsize):
     xvar = (gamma(1+l) * sin(pi * l / 2) / gamma((1 + l)/2 * l * 2**((l-1)/2)) )**(2/l)
     yvar = 1
-    x=random.normal(loc=0.0, scale=xvar, size=varsize)
-    y=random.normal(loc=0.0, scale=yvar, size=varsize)
+    x=np.random.normal(loc=0.0, scale=xvar, size=varsize)
+    y=np.random.normal(loc=0.0, scale=yvar, size=varsize)
     v=x/(abs(y)**(1/l))
 
 
