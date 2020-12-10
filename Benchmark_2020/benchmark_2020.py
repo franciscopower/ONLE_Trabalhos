@@ -2,6 +2,7 @@
 
 import numpy as np
 import math
+import matplotlib.pyplot as plt
 
 from FF import fireFly
 
@@ -104,6 +105,10 @@ def main():
     print(best_cost)
     print('\nglobal best:')
     print(gbest)
+    
+    plt.plot(range(0,param['itermax']), best_cost)
+    plt.grid(True)
+    plt.show()
     
 if __name__ == '__main__':
     main()
