@@ -6,20 +6,9 @@ def sphere(x):
     s = sum(x**2)
     return s
 
-
 def rosenBrock(X, a=1, b=100):
     x,y=X
     return ((a-x)**2+b*(y-x**2)**2)
-
-def levy(l, varsize):
-    xvar = (gamma(1+l) * sin(pi * l / 2) / gamma((1 + l)/2 * l * 2**((l-1)/2)) )**(2/l)
-    yvar = 1
-    x=np.random.normal(loc=0.0, scale=xvar, size=varsize)
-    y=np.random.normal(loc=0.0, scale=yvar, size=varsize)
-    v=x/(abs(y)**(1/l))
-    
-    return v
-
 
 def fireFly(problem, param):
     func = problem['costFunction']
@@ -36,9 +25,6 @@ def fireFly(problem, param):
     scale = param['scale']
     l = param['lambda']
 
-    if l <= 1 or l > 3:
-        raise('=========================================\nParameter for Levy Flight. 1 < alpha <= 3\n=========================================')    
-        
     gbest = {
         'pos': None,
         'cost': np.inf,
@@ -69,18 +55,6 @@ def fireFly(problem, param):
         
     # main loop
     for _ in range(0, itermax):
-        
-
-        # # levy flight
-
-
-        # for i in range(0, npop):
-        #     new_pop[i]['pos'] = np.minimum(np.maximum(pop[i]['pos'] + levy(l, nvar), xmin), xmax)
-        #     new_pop[i]['cost'] = func(new_pop[i]['pos'])
-        #     if new_pop[i]['cost'] < pop[i]['cost']:
-        #         pop[i]['pos'] = new_pop[i]['pos'].copy()
-        #         pop[i]['cost'] = new_pop[i]['cost'].copy()
-
         
         for i in range(0, npop):
             new_pop[i]['cost'] = np.inf
