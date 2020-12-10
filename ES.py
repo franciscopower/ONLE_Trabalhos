@@ -3,7 +3,8 @@ from math import gamma, sin, pi
 
 def sphere(x):
     #! so para testar
-    return sum(x**2)
+    s = sum(x**2)
+    return s
 
 def levy(l, varsize):
     xvar = (gamma(1+l) * sin(pi * l / 2) / gamma((1 + l)/2 * l * 2**((l-1)/2)) )**(2/l)
@@ -49,7 +50,7 @@ def eagleStrategy(problem, param):
     pop = []
     for i in range(0, npop):
         pop.append(empty_particle.copy())
-        pop[i]['pos'] = np.ones(nvar)#np.random.uniform(xmin, xmax, nvar)
+        pop[i]['pos'] = np.random.uniform(xmin, xmax, nvar)
         pop[i]['cost'] = func(pop[i]['pos'])
         
         if pop[i]['cost'] < gbest['cost']:
@@ -62,12 +63,12 @@ def eagleStrategy(problem, param):
     for _ in range(0, itermax):
         
         # levy flight
-        for i in range(0, npop):
-            new_pop[i]['pos'] = np.minimum(np.maximum(pop[i]['pos'] + levy(l, nvar), xmin), xmax)
-            new_pop[i]['cost'] = func(new_pop[i]['pos'])
-            if new_pop[i]['cost'] < pop[i]['cost']:
-                pop[i]['pos'] = new_pop[i]['pos'].copy()
-                pop[i]['cost'] = new_pop[i]['cost'].copy()
+        # for i in range(0, npop):
+        #     new_pop[i]['pos'] = np.minimum(np.maximum(pop[i]['pos'] + levy(l, nvar), xmin), xmax)
+        #     new_pop[i]['cost'] = func(new_pop[i]['pos'])
+        #     if new_pop[i]['cost'] < pop[i]['cost']:
+        #         pop[i]['pos'] = new_pop[i]['pos'].copy()
+        #         pop[i]['cost'] = new_pop[i]['cost'].copy()
         
         
         for i in range(0, npop):
@@ -75,9 +76,10 @@ def eagleStrategy(problem, param):
             for j in range(0, npop):
                 if pop[j]['cost'] < pop[i]['cost']:
                     distance = np.linalg.norm(pop[i]['pos'] - pop[j]['pos'])
-                    new['pos'] = np.minimum(np.maximum(pop[i]['pos'] \
+                    position = pop[i]['pos'] \
                         + b0 * np.exp(-gamma * distance**2) * (pop[j]['pos'] - pop[i]['pos']) \
-                        + alpha * scale * np.random.uniform(-1,1,nvar), xmin), xmax)
+                        + alpha * scale * np.random.uniform(-1,1,nvar)
+                    new['pos'] = np.minimum(np.maximum(position, xmin), xmax)
                     
                     new['cost'] = func(new['pos'])
                     
@@ -110,8 +112,8 @@ problem = {
     'var_max': 5,   
 }    
 param = {
-    'itermax': 100,
-    'npop': 5,
+    'itermax': 50,
+    'npop': 20,
     'gamma': 1,
     'beta0': 1,
     'alpha': 0.2,
