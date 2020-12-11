@@ -24,7 +24,6 @@ def fireFly(problem, param):
     alpha = param['alpha']
     damp = param['damp']
     scale = param['scale']
-    l = param['lambda']
 
     gbest = {
         'pos': None,
@@ -106,7 +105,6 @@ def test():
         'alpha': 0.2,
         'damp': 0.9,
         'scale': (problem['var_max'] - problem['var_min']),
-        'lambda': 1.5,
     }
 
     gbest, best_cost = fireFly(problem, param)

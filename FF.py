@@ -1,25 +1,15 @@
 import numpy as np
 from math import gamma, sin, pi
+import matplotlib.pyplot as plt
 
 def sphere(x):
     #! so para testar
     s = sum(x**2)
     return s
 
-
 def rosenBrock(X, a=1, b=100):
     x,y=X
     return ((a-x)**2+b*(y-x**2)**2)
-
-def levy(l, varsize):
-    xvar = (gamma(1+l) * sin(pi * l / 2) / gamma((1 + l)/2 * l * 2**((l-1)/2)) )**(2/l)
-    yvar = 1
-    x=np.random.normal(loc=0.0, scale=xvar, size=varsize)
-    y=np.random.normal(loc=0.0, scale=yvar, size=varsize)
-    v=x/(abs(y)**(1/l))
-    
-    return v
-
 
 def fireFly(problem, param):
     func = problem['costFunction']
@@ -34,11 +24,7 @@ def fireFly(problem, param):
     alpha = param['alpha']
     damp = param['damp']
     scale = param['scale']
-    l = param['lambda']
 
-    if l <= 1 or l > 3:
-        raise('=========================================\nParameter for Levy Flight. 1 < alpha <= 3\n=========================================')    
-        
     gbest = {
         'pos': None,
         'cost': np.inf,
@@ -69,18 +55,6 @@ def fireFly(problem, param):
         
     # main loop
     for _ in range(0, itermax):
-        
-
-        # # levy flight
-
-
-        # for i in range(0, npop):
-        #     new_pop[i]['pos'] = np.minimum(np.maximum(pop[i]['pos'] + levy(l, nvar), xmin), xmax)
-        #     new_pop[i]['cost'] = func(new_pop[i]['pos'])
-        #     if new_pop[i]['cost'] < pop[i]['cost']:
-        #         pop[i]['pos'] = new_pop[i]['pos'].copy()
-        #         pop[i]['cost'] = new_pop[i]['cost'].copy()
-
         
         for i in range(0, npop):
             new_pop[i]['cost'] = np.inf
@@ -115,29 +89,33 @@ def fireFly(problem, param):
     
     
     
-#-----------------------------------------------------
-problem = {
-    'costFunction': rosenBrock,
-    'nVar': 2,
-    'var_min': -5,
-    'var_max': 5,   
-}    
-param = {
-    'itermax': 50,
-    'npop': 20,
-    'gamma': 1,
-    'beta0': 1,
-    'alpha': 0.2,
-    'damp': 0.9,
-    'scale': (problem['var_max'] - problem['var_min']),
-    'lambda': 1.5,
-}
+# #-----------------------------------------------------
+def test():
+    problem = {
+        'costFunction': sphere,
+        'nVar': 2,
+        'var_min': -5,
+        'var_max': 5,   
+    }    
+    param = {
+        'itermax': 50,
+        'npop': 20,
+        'gamma': 1,
+        'beta0': 1,
+        'alpha': 0.2,
+        'damp': 0.9,
+        'scale': (problem['var_max'] - problem['var_min']),
+    }
 
-gbest, best_cost = eagleStrategy(problem, param)
-print(best_cost)
-print('\nglobal best:')
-print(gbest)
+    gbest, best_cost = fireFly(problem, param)
+    print(best_cost)
+    print('\nglobal best:')
+    print(gbest)
 
+    plt.plot(range(0,param['itermax']), best_cost)
+    plt.grid(True)
+    plt.show()
 
-
+if __name__ == "__main__":
+    test()
 
