@@ -11,7 +11,7 @@ def objectiveFunction(x):
     F=0.7854*x1*x2**2*(3.3333*x3**2+14.9334*x3-43.0934)-1.508*x1*(x6**2+x7**2)+0.7854*(x4*x6**2+x5*x7**2)
     
     # aplicar penalizacoes externas
-    rg = 10
+    rg = 1e8
     gamma = 2
     F = F + rg*max(0, G1(x))**gamma \
         + rg*max(0, G2(x))**gamma \
@@ -49,12 +49,12 @@ def G4(x):
 
 def G5(x):
     x1,x2,x3,x4,x5,x6,x7 = x
-    G=((math.sqrt((((745*x4)/(x2*x3))**2)+16.9e6))/110*x6**3)-1
+    G=((math.sqrt((((745*x4)/(x2*x3))**2)+16.9e6))/(110*x6**3))-1
     return G
 
 def G6(x):
     x1,x2,x3,x4,x5,x6,x7 = x
-    G=((math.sqrt((((745*x5)/(x2*x3))**2)+157.5e6))/85*x7**3)-1
+    G=((math.sqrt((((745*x5)/(x2*x3))**2)+157.5e6))/(85*x7**3))-1
     return G
 
 def G7(x):
@@ -90,8 +90,8 @@ def main():
         'var_max': [3.6, 0.8, 28.0, 8.3, 8.3, 3.9, 5.5],   
     }    
     param = {
-        'itermax': 50,
-        'npop': 50,
+        'itermax': 10,
+        'npop': 100,
         'gamma': 1,
         'beta0': 1,
         'alpha': 0.2,
@@ -104,6 +104,9 @@ def main():
     print(best_cost)
     print('\nglobal best:')
     print(gbest)
+    
+    print('Restricoes')
+    print(G1(gbest['pos']),G2(gbest['pos']),G3(gbest['pos']),G4(gbest['pos']),G5(gbest['pos']),G6(gbest['pos']),G7(gbest['pos']),G8(gbest['pos']),G9(gbest['pos']),G10(gbest['pos']),G11(gbest['pos']),)
     
     plt.plot(range(0,param['itermax']), best_cost)
     plt.grid(True)
