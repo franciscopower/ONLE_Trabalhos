@@ -4,6 +4,8 @@ import numpy as np
 import cv2 as cv
 from functools import partial
 import math
+from FF_5g import fireFly
+import matplotlib.pyplot as plt
 
 import ray_tracer
 
@@ -36,18 +38,27 @@ def restriction_intesity_min(matriz, bump_map, power, value_min):
 
     return value_min>min
 
-def main():
+def objective_function(x, kwargs):
 
-    # Dados ---------------------- 
-    bump_map = cv.imread('Internet5G/bump_map1.png', 0)
-    src_pos=[
-        (0,0),
-        (120,30),
-        ] # isto ja esta a considerar o scale factor... mas deveria?
+
+    bump_map=kwargs["bump_map"]
+    power=kwargs["power"]
+    value_min=kwargs["value_min"]
+
+
+    # para pasar de lista para array
+
+    src_pos=x.reshape(x.shape[0]/2,2)
+
+    # src_pos=[
+    #     (0,0),
+    #     (120,30),
+    #     ] # isto ja esta a considerar o scale factor... mas deveria?
     #allowed_position = cv.imread('allowed_position.png', 0)
     # _, allowed_position = cv.threshold(allowed_position, 5, 255, cv.THRESH_BINARY)
-    power = 100
-    value_min = 0
+
+    # power = 100
+    # value_min = 0
     #-----------------------------
     
     #reduce size of bump map for faster analisis
@@ -67,25 +78,64 @@ def main():
     #Calculate objective function
     funcao_objtivo = objFunction(intensity_matrix,bump_map_inv)
 
-    # Print results
-    print('Objective Function: ' + str(funcao_objtivo))
-    print('Minimum intensity restriction: ' + str(restriction_min_intensity))
-    print('Position restriction: ' + str(restriction_position))
-    
-    #visualize result
-    final_visualization = intensity_matrix * 255 / power * 10
-    final_visualization = cv.resize(final_visualization, (original_size[1], original_size[0]))
-    cv.imshow('light_window', final_visualization)
-    
-    bump_map = cv.resize(bump_map,  (original_size[1], original_size[0]))
-    cv.imshow('bump_map_window', bump_map)
-    
-    cv.waitKey(0)
+    #Print results
+    # print('Objective Function: ' + str(funcao_objtivo))
+    # print('Minimum intensity restriction: ' + str(restriction_min_intensity))
+    # print('Position restriction: ' + str(restriction_position))
+    #
+    # #visualize result
+    # final_visualization = intensity_matrix * 255 / power * 10
+    # final_visualization = cv.resize(final_visualization, (original_size[1], original_size[0]))
+    # cv.imshow('light_window', final_visualization)
+    #
+    # bump_map = cv.resize(bump_map,  (original_size[1], original_size[0]))
+    # cv.imshow('bump_map_window', bump_map)
+    #
+    # cv.waitKey(0)
 
-if __name__ == "__main__":
+    return funcao_objtivo
+
+def main():
+    # Dados ----------------------
+    bump_map = cv.imread('Internet5G/bump_map1.png', 0)
+
+    # src_pos = [
+    #     (0, 0),
+    #     (120, 30),
+    # ]
+    power = 100
+    value_min = 0
+    ntorre=2
+
+    problem = {
+        'costFunction': objective_function,
+        'nVar': 2*ntorre,
+        'var_min': [0.0, 0.0]*ntorre,
+        'var_max': [bump_map.shape[1], bump_map.shape[0]]*ntorre
+    }
+    param = {
+        'itermax': 50,
+        'npop': 50,
+        'gamma': 1,
+        'beta0': 1,
+        'alpha': 0.2,
+        'damp': 0.9,
+        'scale': (np.array(problem['var_max']) - np.array(problem['var_min'])),
+        'lambda': 1.5,
+    }
+
+    gbest, best_cost = fireFly(problem, param, bump_map=bump_map, power=power, value_min=value_min)
+    print(best_cost)
+    print('\nglobal best:')
+    print(gbest)
+
+    plt.plot(range(0, param['itermax']), best_cost)
+    plt.grid(True)
+    plt.show()
+
+
+if __name__ == '__main__':
     main()
-
-
 
 
 

@@ -132,6 +132,8 @@ def main():
     
     moveObjects.showObjects(new_objs)
 
+
+
 if __name__ == "__main__":
     main()
     
