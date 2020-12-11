@@ -1,5 +1,6 @@
 import numpy as np
 from math import gamma, sin, pi
+import matplotlib.pyplot as plt
 
 def sphere(x):
     #! so para testar
@@ -90,28 +91,33 @@ def fireFly(problem, param):
     
     
 # #-----------------------------------------------------
-# problem = {
-#     'costFunction': rosenBrock,
-#     'nVar': 2,
-#     'var_min': -5,
-#     'var_max': 5,   
-# }    
-# param = {
-#     'itermax': 50,
-#     'npop': 20,
-#     'gamma': 1,
-#     'beta0': 1,
-#     'alpha': 0.2,
-#     'damp': 0.9,
-#     'scale': (problem['var_max'] - problem['var_min']),
-#     'lambda': 1.5,
-# }
+def test():
+    problem = {
+        'costFunction': sphere,
+        'nVar': 2,
+        'var_min': -5,
+        'var_max': 5,   
+    }    
+    param = {
+        'itermax': 50,
+        'npop': 20,
+        'gamma': 1,
+        'beta0': 1,
+        'alpha': 0.2,
+        'damp': 0.9,
+        'scale': (problem['var_max'] - problem['var_min']),
+        'lambda': 1.5,
+    }
 
-# gbest, best_cost = fireFly(problem, param)
-# print(best_cost)
-# print('\nglobal best:')
-# print(gbest)
+    gbest, best_cost = fireFly(problem, param)
+    print(best_cost)
+    print('\nglobal best:')
+    print(gbest)
 
+    plt.plot(range(0,param['itermax']), best_cost)
+    plt.grid(True)
+    plt.show()
 
-
+if __name__ == "__main__":
+    test()
 
