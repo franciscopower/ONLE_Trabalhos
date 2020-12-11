@@ -1,6 +1,9 @@
 import numpy as np
 import interpretGCode
 import moveObjects
+import matplotlib.pyplot as plt
+
+from FF import fireFly
 
 def objFunction(objs):
     n_layers = [o[1].shape[1] for o in objs] #numero de camadas de cada objeto
@@ -104,24 +107,28 @@ def checkInHotBed(objs, hot_bed_size_x, hot_bed_size_y):
     return True
 
 
-def main():
-    objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
+def objFunctionComplete(x,kwargs):
+    # objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
     
+    trans_list = x.reshape(x.shape[0]/3, 3)
+    
+    objs = kwargs['objs']
+    
+    # create copy of objs
     new_objs = []
     temp_list = []
-
     for l in objs:
         for item in l:
             temp_list.append(np.copy(item))
         new_objs.append(temp_list)
         temp_list = []
     
-    trans_list = [
-        [20,0,0],
-        [20,60,0],
-        [-40,50,np.pi/4],
-        [-20,-20,0],
-    ]
+    # trans_list = [
+    #     [20,0,0],
+    #     [20,60,0],
+    #     [-40,50,np.pi/4],
+    #     [-20,-20,0],
+    # ]
     
     new_objs = moveObjects.moveObjects(new_objs, trans_list)
     
@@ -131,6 +138,36 @@ def main():
     print(checkInHotBed(new_objs, 200, 200))
     
     moveObjects.showObjects(new_objs)
+    
+    
+def main():
+    
+    objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')    
+    
+    problem = {
+        'costFunction': objFunctionComplete,
+        'nVar': 2,
+        'var_min': -5,
+        'var_max': 5,   
+    }    
+    param = {
+        'itermax': 50,
+        'npop': 20,
+        'gamma': 1,
+        'beta0': 1,
+        'alpha': 0.2,
+        'damp': 0.9,
+        'scale': (problem['var_max'] - problem['var_min']),
+    }
+
+    gbest, best_cost = fireFly(problem, param, objs=objs)
+    print(best_cost)
+    print('\nglobal best:')
+    print(gbest)
+
+    plt.plot(range(0,param['itermax']), best_cost)
+    plt.grid(True)
+    plt.show()
 
 if __name__ == "__main__":
     main()
