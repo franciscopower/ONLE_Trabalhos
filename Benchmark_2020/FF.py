@@ -52,6 +52,7 @@ def fireFly(problem, param):
             gbest['cost'] = pop[i]['cost'].copy()
             
     best_cost = []
+    eval_cost = []
         
     # main loop
     for _ in range(0, itermax):
@@ -67,6 +68,7 @@ def fireFly(problem, param):
                     new['pos'] = np.minimum(np.maximum(position, xmin), xmax)
                     
                     new['cost'] = func(new['pos'])
+                    eval_cost.append(new['cost'])
                     
                     if new['cost'] < new_pop[i]['cost']:
                         new_pop[i]['pos'] = new['pos'].copy()
@@ -85,7 +87,7 @@ def fireFly(problem, param):
         
         alpha = alpha * damp
         
-    return gbest, best_cost
+    return gbest, best_cost, eval_cost
     
     
     

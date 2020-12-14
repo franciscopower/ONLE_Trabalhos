@@ -11,7 +11,7 @@ def objectiveFunction(x):
     F=0.7854*x1*x2**2*(3.3333*x3**2+14.9334*x3-43.0934)-1.508*x1*(x6**2+x7**2)+0.7854*(x4*x6**2+x5*x7**2) + 7.4777*(x6**3 + x7**3)
     
     # aplicar penalizacoes externas
-    rg = 1e8
+    rg = 1e9
     gamma = 2
     F = F + rg*max(0, G1(x))**gamma \
         + rg*max(0, G2(x))**gamma \
@@ -89,30 +89,58 @@ def main():
         'var_min': [2.6, 0.7, 17.0, 7.3, 7.8, 2.9, 5.0],
         'var_max': [3.6, 0.8, 28.0, 8.3, 8.3, 3.9, 5.5],   
     }    
-    
-    
-    # for v in np.linspace(0.1,2,10):
     param = {
         'itermax': 10,
         'npop': 100,
         'gamma': 1, #1
-        'beta0': 1,
+        'beta0': 1.8,
         'alpha': 0.1, #0.2
-        'damp': 0.9,
+        'damp': 0.4,
         'scale': (np.array(problem['var_max']) - np.array(problem['var_min'])),
     }
-
-    gbest, best_cost = fireFly(problem, param)
-    print(best_cost)
-    print('\nglobal best:')
-    print(gbest)
     
-    print('Restricoes')
-    print(G1(gbest['pos']),G2(gbest['pos']),G3(gbest['pos']),G4(gbest['pos']),G5(gbest['pos']),G6(gbest['pos']),G7(gbest['pos']),G8(gbest['pos']),G9(gbest['pos']),G10(gbest['pos']),G11(gbest['pos']),)
+    best_cost_total = []
+    best_global_best = [np.inf]*param['itermax']
+    gbest_value = np.inf
+    for _ in range(1):
+        
+        gbest, best_cost, eval_cost = fireFly(problem, param)
+        
+        best_cost_total.append(best_cost)
+        
+        if gbest_value > gbest['cost']:
+            gbest_value = gbest['cost']
+            gbest_pos = gbest['pos']
+            best_global_best = best_cost
+        
+        
+        # print(best_cost)
+        print('\nglobal best:')
+        print(gbest)
+        
+        print('Restricoes')
+        print(G1(gbest['pos']),G2(gbest['pos']),G3(gbest['pos']),G4(gbest['pos']),G5(gbest['pos']),G6(gbest['pos']),G7(gbest['pos']),G8(gbest['pos']),G9(gbest['pos']),G10(gbest['pos']),G11(gbest['pos']),)
+        
+        # plt.plot(range(0,param['itermax']), best_cost, label=str(v))
+        # plt.plot(eval_cost)
+        
+    print('\n----------------------------------\n')
+    print('Global best cost: ' + str(gbest_value))
+    print('Global best position: ')
+    print(gbest_pos)
+        
+    average_best = [0]*len(best_cost)
+    for i in range(0,len(best_cost_total)):
+        for j in range(0, len(best_cost)):
+            average_best[j] += best_cost_total[i][j]
+    average_best = [i/(len(best_cost_total)) for i in average_best]
+    plt.plot(range(0, param['itermax']), average_best, label='Curva media de convergencia')
+    plt.plot(range(0, param['itermax']), best_global_best, label='Melhor curva de convergencia')
     
-    plt.plot(range(0,param['itermax']), best_cost)
-    
-    plt.label = True
+    plt.title("Evolucao do custo da funcao objetivo")
+    plt.xlabel("Avaliacao")
+    plt.ylabel("Custo")
+    plt.legend(loc="upper left")
     plt.grid(True)
     plt.show()
     
