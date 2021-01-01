@@ -12,7 +12,7 @@ def objectiveFunction(x):
     F=0.7854*x1*x2**2*(3.3333*x3**2+14.9334*x3-43.0934)-1.508*x1*(x6**2+x7**2)+0.7854*(x4*x6**2+x5*x7**2) + 7.4777*(x6**3 + x7**3)
     
     # aplicar penalizacoes externas
-    rg = 1e9
+    rg = 1e10
     gamma = 2
     F = F + rg*max(0, G1(x))**gamma \
         + rg*max(0, G2(x))**gamma \
@@ -114,7 +114,7 @@ def main():
     best_cost_total = []
     best_global_best = [np.inf]*param['itermax']
     gbest_value = np.inf
-    for _ in range(1):
+    for _ in range(20):
         
         gbest, best_cost, eval_cost = fireFly(problem, param)
         
@@ -285,8 +285,8 @@ def analise_sensibilidada():
 
     
 if __name__ == '__main__':
-    #main()
-    analise_sensibilidada()
+    main()
+    # analise_sensibilidada()
     # print(objectiveFunction(np.array([3.499999, 0.7, 17.0, 7.3, 7.8, 3.350215, 5.286683])))
     
     
