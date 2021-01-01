@@ -6,14 +6,18 @@ from functools import partial
 import math
 
                             
-def calculateIntensity(src_pos, point, power, bump_map):
+def calculateIntensity(src_pos, point, power, bump_map, restriction_map, scale_real):
 
     # analise das distacias ao scr
     pt_dist = np.zeros((len(src_pos),3))
 
     #add distances to points
     for i,t in enumerate(src_pos):
-        pt_dist[i,:] = [t[0], t[1], ((t[0]-point[0])**2 + (t[1]-point[1])**2)] #! avaliar o efeito do scale factor
+        if restriction_map[t[1],t[0]] != 255:
+            pt_dist[i,:] = [t[0], t[1], ((t[0]-point[0])**2 + (t[1]-point[1])**2)*scale_real] #! avaliar o efeito do scale factor
+        else:
+            pt_dist[i,:] = [t[0], t[1], np.inf] #caso a torre esteja em area proibida
+
         
     # sort distances and points:
     pt_dist = pt_dist[np.lexsort((pt_dist[:,2], ))]
@@ -41,7 +45,7 @@ def calculateIntensity(src_pos, point, power, bump_map):
 
     return intensity
 
-def intensityMatrix(bump_map,src_pos,power,scale_factor):
+def intensityMatrix(bump_map,src_pos,power, restriction_map, scale_real):
     
     density=1
     intensity_values = np.zeros(bump_map.shape)
@@ -49,7 +53,7 @@ def intensityMatrix(bump_map,src_pos,power,scale_factor):
     # calculate intensity matrix
     for l in range(0, bump_map.shape[0] - 1, density):
         for c in range(0, bump_map.shape[1] - 1, density):
-            intensity = calculateIntensity(src_pos,(c,l), power, bump_map)
+            intensity = calculateIntensity(src_pos,(c,l), power, bump_map, restriction_map, scale_real)
             intensity_values[l][c] = intensity
 
     return (intensity_values)

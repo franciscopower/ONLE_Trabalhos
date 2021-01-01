@@ -3,7 +3,7 @@ import interpretGCode
 import moveObjects
 import matplotlib.pyplot as plt
 
-from FF import fireFly
+from FF_3D import fireFly
 
 def objFunction(objs):
     n_layers = [o[1].shape[1] for o in objs] #numero de camadas de cada objeto
@@ -94,17 +94,30 @@ def restrictionMinDist(objs, d_min):
     return True
 
 def checkInHotBed(objs, hot_bed_size_x, hot_bed_size_y):
+    fator_penalizacao = 1e3
+    penalizacao_x = 0
+    penalizacao_y = 0
+    penalizacao_t = 0
+    
     for o in objs:
         x_max = max(o[0][0,:])
         x_min = min(o[0][0,:])
         y_max = max(o[0][1,:])
         y_min = min(o[0][1,:])
         
-        if x_max > hot_bed_size_x/2 or x_min < -hot_bed_size_x/2 or y_max > hot_bed_size_y/2 or y_min < -hot_bed_size_y/2:
-            print(x_max, x_min, y_max, y_min)
-            return False
+        if x_max > hot_bed_size_x/2:
+            penalizacao_x = fator_penalizacao*(x_max-hot_bed_size_x/2)
+        elif x_min < -hot_bed_size_x/2:
+            penalizacao_x = fator_penalizacao*(-x_min-hot_bed_size_x/2)
             
-    return True
+        if y_min > hot_bed_size_y/2:
+            penalizacao_y = fator_penalizacao*(y_max-hot_bed_size_x/2)
+        elif y_min < -hot_bed_size_y/2:
+            penalizacao_y = fator_penalizacao*(-y_min-hot_bed_size_x/2)
+        
+        penalizacao_t += (penalizacao_x + penalizacao_y)
+        
+    return penalizacao_t
 
 
 def objFunctionComplete(x,kwargs):
@@ -151,13 +164,13 @@ def main():
         'var_max': 5,   
     }    
     param = {
-        'itermax': 50,
-        'npop': 20,
-        'gamma': 1,
-        'beta0': 1,
-        'alpha': 0.2,
-        'damp': 0.9,
-        'scale': (problem['var_max'] - problem['var_min']),
+        'itermax': 10,
+        'npop': 100,
+        'gamma': 1, #1
+        'beta0': 1.8,
+        'alpha': 0.1, #0.2
+        'damp': 0.4,
+        'scale': (np.array(problem['var_max']) - np.array(problem['var_min'])),
     }
 
     gbest, best_cost = fireFly(problem, param, objs=objs)

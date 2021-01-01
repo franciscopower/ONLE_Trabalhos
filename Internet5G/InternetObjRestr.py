@@ -42,6 +42,7 @@ def objective_function(x, kwargs):
 
 
     bump_map=kwargs["bump_map"]
+    restriction_map=kwargs["restriction_map"]
     power=kwargs["power"]
     value_min=kwargs["value_min"]
 
@@ -64,10 +65,11 @@ def objective_function(x, kwargs):
     #reduce size of bump map for faster analisis
     original_size = bump_map.shape
     scale_factor = 4
+    scale_real = scale_factor
     bump_map = cv.resize(bump_map, (int(bump_map.shape[1] / scale_factor), int(bump_map.shape[0] / scale_factor)))
     
     # devolve a matriz intencidades procesadas pelo algoritmo ray_tracer
-    intensity_matrix = ray_tracer.intensityMatrix(bump_map, src_pos, power, scale_factor)
+    intensity_matrix = ray_tracer.intensityMatrix(bump_map, src_pos, power, restriction_map, scale_real)
 
     # Check restrictions
     restriction_min_intensity = restriction_intesity_min(intensity_matrix,bump_map, power, value_min)
@@ -98,6 +100,7 @@ def objective_function(x, kwargs):
 def main():
     # Dados ----------------------
     bump_map = cv.imread('Internet5G/bump_map1.png', 0)
+    restriction_map = cv.imread('Internet5G/bump_map1.png', 0)
 
     # src_pos = [
     #     (0, 0),
@@ -114,17 +117,16 @@ def main():
         'var_max': [bump_map.shape[1], bump_map.shape[0]]*ntorre
     }
     param = {
-        'itermax': 50,
-        'npop': 50,
-        'gamma': 1,
-        'beta0': 1,
-        'alpha': 0.2,
-        'damp': 0.9,
+        'itermax': 10,
+        'npop': 100,
+        'gamma': 1, #1
+        'beta0': 1.8,
+        'alpha': 0.1, #0.2
+        'damp': 0.4,
         'scale': (np.array(problem['var_max']) - np.array(problem['var_min'])),
-        'lambda': 1.5,
     }
 
-    gbest, best_cost = fireFly(problem, param, bump_map=bump_map, power=power, value_min=value_min)
+    gbest, best_cost = fireFly(problem, param, bump_map=bump_map, power=power, value_min=value_min, restriction_map=restriction_map)
     print(best_cost)
     print('\nglobal best:')
     print(gbest)
