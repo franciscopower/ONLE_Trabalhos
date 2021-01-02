@@ -2,6 +2,7 @@ import numpy as np
 import interpretGCode
 import moveObjects
 import matplotlib.pyplot as plt
+from shapely.geometry import Polygon
 
 from FF_3D import fireFly
 
@@ -65,8 +66,30 @@ def objFunction(objs):
     return d_total
 
 
-def convertPoligeno():
-    pass
+def coordsToPoly(objs):
+    poly_objs = []
+    
+    for o in objs:
+        polys = []
+        poly = []
+        n = 0
+        
+        for i in range(0,o[0].shape[1]):
+            
+            if o[0][2][i] != o[1][2][n]:
+                p = Polygon(poly)
+                polys.append(p)
+                n += 1
+                poly = []
+                
+            poly.append((o[0][0][i],o[0][1][i]))
+        
+        p = Polygon(poly)
+        polys.append(p)
+            
+        poly_objs.append(polys)
+
+    return poly_objs
 
 
 def restrictionMinDist(objs, d_min):
@@ -99,7 +122,7 @@ def restrictionMinDist(objs, d_min):
     #
     # return True
 
-    poli = convertPoligeno(objs)
+    poli = coordsToPoly(objs)
     nobj = len(poli)
 
     # descobre o tamanho de cada obj
