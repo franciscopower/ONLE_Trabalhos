@@ -19,7 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e62e0bc1-fc98-49d5-81c7-117d9bc1cf06" name="Default Changelist" comment="" />
+    <list default="true" id="e62e0bc1-fc98-49d5-81c7-117d9bc1cf06" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImpressaoObjRestr.py" beforeDir="false" afterPath="$PROJECT_DIR$/ImpressaoObjRestr.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,6 +42,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -51,6 +55,9 @@
       <workItem from="1606394072604" duration="2063000" />
       <workItem from="1606433358924" duration="764000" />
       <workItem from="1606603013556" duration="31000" />
+      <workItem from="1609580411441" duration="537000" />
+      <workItem from="1609580982807" duration="11000" />
+      <workItem from="1609581028244" duration="9167000" />
     </task>
     <servers />
   </component>
