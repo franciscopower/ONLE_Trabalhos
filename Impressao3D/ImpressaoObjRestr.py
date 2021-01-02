@@ -25,7 +25,11 @@ def objFunction(objs):
             if n_valid_objs <= 1:
                 break
             n_valid_objs -= 1
-            obj_idx.pop(obj_idx.index(obj_n))
+            try:
+                obj_idx.pop(obj_idx.index(obj_n))
+            except:
+                pass
+            
             if not obj_idx:
                 continue
 
@@ -137,14 +141,17 @@ def restrictionMinDist(objs, d_min):
 
     for l in range(0, max(list_size_ogj)):
         for n in range(0, nobj):
-            if l > list_size_ogj[n]:
+            if l >= list_size_ogj[n]:
                 list_compre[n] = False
         for e in range(0, nobj):
             if list_compre[e]:
                 for r in range(e + 1, nobj):
                     if list_compre[r]:
                         if poli[e][l].intersects(poli[r][l]):
-                            ariaint += poli[e][l].intersection(poli[r][l]).area
+                            try:
+                                ariaint += poli[e][l].intersection(poli[r][l]).area
+                            except:
+                                ariaint += 1e6
 
                         if poli[e][l].distance(poli[r][l]) < d_min:
                             distsoma = d_min - poli[e][l].distance(poli[r][l])
@@ -181,11 +188,11 @@ def checkInHotBed(objs, hot_bed_size_x, hot_bed_size_y):
 
 
 def objFunctionComplete(x, kwargs):
-    # objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
+    objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
 
-    trans_list = x.reshape(x.shape[0] / 3, 3)
+    # trans_list = x.reshape(x.shape[0] / 3, 3)
 
-    objs = kwargs['objs']
+    # objs = kwargs['objs']
 
     # create copy of objs
     new_objs = []
@@ -196,21 +203,22 @@ def objFunctionComplete(x, kwargs):
         new_objs.append(temp_list)
         temp_list = []
 
-    # trans_list = [
-    #     [20,0,0],
-    #     [20,60,0],
-    #     [-40,50,np.pi/4],
-    #     [-20,-20,0],
-    # ]
+    trans_list = [
+        [20,50,0],
+        [20,60,0],
+        [-40,50,np.pi/4],
+        [-20,-20,0],
+    ]
 
     new_objs = moveObjects.moveObjects(new_objs, trans_list)
     
     cost = objFunction(new_objs) + checkInHotBed(new_objs, 200, 200) + restrictionMinDist(new_objs, 3)
 
-    # moveObjects.showObjects(new_objs)
-    # print(objFunction(new_objs))
-    # print(restrictionMinDist(new_objs, 3))
-    # print(checkInHotBed(new_objs, 200, 200))
+    
+    print(objFunction(new_objs))
+    print(restrictionMinDist(new_objs, 3))
+    print(checkInHotBed(new_objs, 200, 200))
+    moveObjects.showObjects(new_objs)
     
     return cost
 
@@ -245,4 +253,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    objFunctionComplete(0,0)
