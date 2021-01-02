@@ -150,7 +150,11 @@ def objFunctionComplete(x,kwargs):
     
     print(checkInHotBed(new_objs, 200, 200))
     
-    moveObjects.showObjects(new_objs)
+    cost = objFunction(new_objs) + checkInHotBed(new_objs, 200, 200)
+    
+    # moveObjects.showObjects(new_objs)
+    
+    return cost
     
     
 def main():
