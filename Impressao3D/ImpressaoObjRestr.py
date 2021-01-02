@@ -205,7 +205,7 @@ def objFunctionComplete(x, kwargs):
 
     new_objs = moveObjects.moveObjects(new_objs, trans_list)
     
-    cost = objFunction(new_objs) + checkInHotBed(new_objs, 200, 200)
+    cost = objFunction(new_objs) + checkInHotBed(new_objs, 200, 200) + restrictionMinDist(new_objs, 3)
 
     # moveObjects.showObjects(new_objs)
     # print(objFunction(new_objs))
