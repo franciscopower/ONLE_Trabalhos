@@ -118,7 +118,7 @@ def restrictionMinDist(objs, d_min):
                             return False
                         
     return True
-
+               
 def checkInHotBed(objs, hot_bed_size_x, hot_bed_size_y):
     fator_penalizacao = 1e3
     penalizacao_x = 0
@@ -171,14 +171,12 @@ def objFunctionComplete(x,kwargs):
     
     new_objs = moveObjects.moveObjects(new_objs, trans_list)
     
-    print(objFunction(new_objs))
-    print(restrictionMinDist(new_objs, 3))
-    
-    print(checkInHotBed(new_objs, 200, 200))
-    
     cost = objFunction(new_objs) + checkInHotBed(new_objs, 200, 200)
     
     # moveObjects.showObjects(new_objs)
+    # print(objFunction(new_objs))
+    # print(restrictionMinDist(new_objs, 3))
+    # print(checkInHotBed(new_objs, 200, 200))
     
     return cost
     
@@ -203,7 +201,7 @@ def main():
         'scale': (np.array(problem['var_max']) - np.array(problem['var_min'])),
     }
 
-    gbest, best_cost = fireFly(problem, param, objs=objs)
+    gbest, best_cost, eval_cost = fireFly(problem, param, objs=objs)
     print(best_cost)
     print('\nglobal best:')
     print(gbest)

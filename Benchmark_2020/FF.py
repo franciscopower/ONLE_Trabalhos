@@ -84,6 +84,7 @@ def fireFly(problem, param):
         pop = pop[0:npop]
         
         best_cost.append(gbest['cost'])
+        # best_cost.append(gbest)
         
         alpha = alpha * damp
         

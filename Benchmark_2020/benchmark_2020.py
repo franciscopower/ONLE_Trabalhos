@@ -114,7 +114,7 @@ def main():
     best_cost_total = []
     best_global_best = [np.inf]*param['itermax']
     gbest_value = np.inf
-    for _ in range(20):
+    for _ in range(1):
         
         gbest, best_cost, eval_cost = fireFly(problem, param)
         
