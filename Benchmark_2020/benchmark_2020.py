@@ -4,6 +4,8 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from FF import fireFly
+import json
+import pylab
 
 def objectiveFunction(x):
     
@@ -114,6 +116,9 @@ def main():
     best_cost_total = []
     best_global_best = [np.inf]*param['itermax']
     gbest_value = np.inf
+
+    fig1 = plt.figure()
+    
     for _ in range(1):
         
         gbest, best_cost, eval_cost = fireFly(problem, param)
@@ -133,7 +138,6 @@ def main():
         print('Restricoes')
         print(G1(gbest['pos']),G2(gbest['pos']),G3(gbest['pos']),G4(gbest['pos']),G5(gbest['pos']),G6(gbest['pos']),G7(gbest['pos']),G8(gbest['pos']),G9(gbest['pos']),G10(gbest['pos']),G11(gbest['pos']),)
         
-        # plt.plot(range(0,param['itermax']), best_cost, label=str(v))
         # plt.plot(eval_cost)
         
     print('\n----------------------------------\n')
@@ -154,7 +158,11 @@ def main():
     plt.ylabel("Custo")
     plt.legend(loc="upper left")
     plt.grid(True)
+    plt.yscale("log",basey=10)
     plt.show()
+    
+    results = {'gbest':gbest, 'best_cost':best_cost, 'eval_cost':eval_cost}
+    
 
 def analise_sensibilidada():
 

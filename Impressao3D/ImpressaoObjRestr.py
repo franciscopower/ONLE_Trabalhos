@@ -188,11 +188,19 @@ def checkInHotBed(objs, hot_bed_size_x, hot_bed_size_y):
 
 
 def objFunctionComplete(x, kwargs):
-    objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
+    # so para testar ----------------------
+    # objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
+    # trans_list = [
+    #     [20,50,0],
+    #     [20,60,0],
+    #     [-40,50,np.pi/4],
+    #     [-20,-20,0],
+    # ]
+    # --------------------------------------
+    
+    trans_list = x.reshape(x.shape[0] / 3, 3)
 
-    # trans_list = x.reshape(x.shape[0] / 3, 3)
-
-    # objs = kwargs['objs']
+    objs = kwargs['objs']
 
     # create copy of objs
     new_objs = []
@@ -203,22 +211,14 @@ def objFunctionComplete(x, kwargs):
         new_objs.append(temp_list)
         temp_list = []
 
-    trans_list = [
-        [20,50,0],
-        [20,60,0],
-        [-40,50,np.pi/4],
-        [-20,-20,0],
-    ]
-
     new_objs = moveObjects.moveObjects(new_objs, trans_list)
     
     cost = objFunction(new_objs) + checkInHotBed(new_objs, 200, 200) + restrictionMinDist(new_objs, 3)
-
     
-    print(objFunction(new_objs))
-    print(restrictionMinDist(new_objs, 3))
-    print(checkInHotBed(new_objs, 200, 200))
-    moveObjects.showObjects(new_objs)
+    # print(objFunction(new_objs))
+    # print(restrictionMinDist(new_objs, 3))
+    # print(checkInHotBed(new_objs, 200, 200))
+    # moveObjects.showObjects(new_objs)
     
     return cost
 
@@ -228,9 +228,9 @@ def main():
 
     problem = {
         'costFunction': objFunctionComplete,
-        'nVar': 2,
-        'var_min': -5,
-        'var_max': 5,
+        'nVar': 3*len(objs),
+        'var_min': [-100, -100, 0]*len(objs),
+        'var_max': [100, 100, 2*np.pi]*len(objs),
     }
     param = {
         'itermax': 10,
@@ -240,15 +240,49 @@ def main():
         'alpha': 0.1,  # 0.2
         'damp': 0.4,
         'scale': (np.array(problem['var_max']) - np.array(problem['var_min'])),
-    }
-
-    gbest, best_cost, eval_cost = fireFly(problem, param, objs=objs)
-    print(best_cost)
-    print('\nglobal best:')
-    print(gbest)
-
-    plt.plot(range(0, param['itermax']), best_cost)
+    }  
+    
+    
+    best_cost_total = []
+    best_global_best = [np.inf]*param['itermax']
+    gbest_value = np.inf
+    for _ in range(1):
+        
+        gbest, best_cost, eval_cost = fireFly(problem, param, objs=objs)
+        
+        best_cost_total.append(best_cost)
+        
+        if gbest_value > gbest['cost']:
+            gbest_value = gbest['cost']
+            gbest_pos = gbest['pos']
+            best_global_best = best_cost
+        
+        # print(best_cost)
+        print('\nglobal best:')
+        print(gbest)
+        
+        # plt.plot(range(0,param['itermax']), best_cost, label=str(v))
+        plt.plot(eval_cost)
+        
+    print('\n----------------------------------\n')
+    print('Global best cost: ' + str(gbest_value))
+    print('Global best position: ')
+    print(gbest_pos)
+        
+    average_best = [0]*len(best_cost)
+    for i in range(0,len(best_cost_total)):
+        for j in range(0, len(best_cost)):
+            average_best[j] += best_cost_total[i][j]
+    average_best = [i/(len(best_cost_total)) for i in average_best]
+    plt.plot(range(0, param['itermax']), average_best, label='Curva media de convergencia')
+    plt.plot(range(0, param['itermax']), best_global_best, label='Melhor curva de convergencia')
+    
+    plt.title("Evolucao do custo da funcao objetivo")
+    plt.xlabel("Avaliacao")
+    plt.ylabel("Custo")
+    plt.legend(loc="upper left")
     plt.grid(True)
+    plt.yscale("log",basey=10)
     plt.show()
 
 
