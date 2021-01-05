@@ -248,30 +248,30 @@ def main():
     gbest_value = np.inf
     for _ in range(1):
         
-        gbest, best_cost, eval_cost = fireFly(problem, param, objs=objs)
+        gbest, iter_best, eval_cost = fireFly(problem, param)
         
-        best_cost_total.append(best_cost)
+        best_cost_total.append(iter_best['cost'])
         
         if gbest_value > gbest['cost']:
             gbest_value = gbest['cost']
             gbest_pos = gbest['pos']
-            best_global_best = best_cost
+            best_global_best = iter_best['cost']
         
-        # print(best_cost)
-        print('\nglobal best:')
+        
+        print(iter_best)
+        print('\nGlobal best in test:')
         print(gbest)
         
-        # plt.plot(range(0,param['itermax']), best_cost, label=str(v))
-        plt.plot(eval_cost)
+        # plt.plot(eval_cost)
         
     print('\n----------------------------------\n')
     print('Global best cost: ' + str(gbest_value))
     print('Global best position: ')
     print(gbest_pos)
         
-    average_best = [0]*len(best_cost)
+    average_best = [0]*len(iter_best['cost'])
     for i in range(0,len(best_cost_total)):
-        for j in range(0, len(best_cost)):
+        for j in range(0, len(iter_best['cost'])):
             average_best[j] += best_cost_total[i][j]
     average_best = [i/(len(best_cost_total)) for i in average_best]
     plt.plot(range(0, param['itermax']), average_best, label='Curva media de convergencia')

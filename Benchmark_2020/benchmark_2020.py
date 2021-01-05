@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from FF import fireFly
 import json
 import pylab
+import pandas as pd
 
 def objectiveFunction(x):
     
@@ -121,22 +122,22 @@ def main():
     
     for _ in range(1):
         
-        gbest, best_cost, eval_cost = fireFly(problem, param)
+        gbest, iter_best, eval_cost = fireFly(problem, param)
         
-        best_cost_total.append(best_cost)
+        best_cost_total.append(iter_best['cost'])
         
         if gbest_value > gbest['cost']:
             gbest_value = gbest['cost']
             gbest_pos = gbest['pos']
-            best_global_best = best_cost
+            best_global_best = iter_best['cost']
         
         
-        # print(best_cost)
-        print('\nglobal best:')
+        print(iter_best)
+        print('\nGlobal best in test:')
         print(gbest)
         
-        print('Restricoes')
-        print(G1(gbest['pos']),G2(gbest['pos']),G3(gbest['pos']),G4(gbest['pos']),G5(gbest['pos']),G6(gbest['pos']),G7(gbest['pos']),G8(gbest['pos']),G9(gbest['pos']),G10(gbest['pos']),G11(gbest['pos']),)
+        # print('Restricoes')
+        # print(G1(gbest['pos']),G2(gbest['pos']),G3(gbest['pos']),G4(gbest['pos']),G5(gbest['pos']),G6(gbest['pos']),G7(gbest['pos']),G8(gbest['pos']),G9(gbest['pos']),G10(gbest['pos']),G11(gbest['pos']),)
         
         # plt.plot(eval_cost)
         
@@ -145,9 +146,9 @@ def main():
     print('Global best position: ')
     print(gbest_pos)
         
-    average_best = [0]*len(best_cost)
+    average_best = [0]*len(iter_best['cost'])
     for i in range(0,len(best_cost_total)):
-        for j in range(0, len(best_cost)):
+        for j in range(0, len(iter_best['cost'])):
             average_best[j] += best_cost_total[i][j]
     average_best = [i/(len(best_cost_total)) for i in average_best]
     plt.plot(range(0, param['itermax']), average_best, label='Curva media de convergencia')
@@ -161,8 +162,24 @@ def main():
     plt.yscale("log",basey=10)
     plt.show()
     
-    results = {'gbest':gbest, 'best_cost':best_cost, 'eval_cost':eval_cost}
     
+    eval_cost_df = pd.DataFrame({"evaluation_cost":eval_cost})
+    eval_cost_df.to_csv('benchmark_eval_cost.csv')
+    
+    columns = ['x'+str(n+1) for n in range(problem['nVar'])]
+    columns = ['cost'] + columns
+    
+    data = np.zeros((param['itermax'],problem["nVar"]+1))
+    for l in range(param['itermax']):
+        data[l][0] = iter_best['cost'][l]
+        data[l][1:] = iter_best['pos'][l]
+        
+    # print(data)
+    
+    iter_cost_df = pd.DataFrame(data, columns=columns)
+    print(iter_cost_df)
+    iter_cost_df.to_csv('benchmark_iteration_cost.csv')
+
 
 def analise_sensibilidada():
 

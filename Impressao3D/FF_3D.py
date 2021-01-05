@@ -51,7 +51,7 @@ def fireFly(problem, param, **kwargs):
             gbest['pos'] = pop[i]['pos'].copy()
             gbest['cost'] = pop[i]['cost'].copy()
             
-    best_cost = []
+    iter_best = {'pos':[],'cost':[]}
     eval_cost = []
         
     # main loop
@@ -83,11 +83,12 @@ def fireFly(problem, param, **kwargs):
         pop = sorted(pop, key=lambda i: i['cost'])
         pop = pop[0:npop]
         
-        best_cost.append(gbest)
+        iter_best['cost'].append(gbest['cost'])
+        iter_best['pos'].append(gbest['pos'])
         
         alpha = alpha * damp
         
-    return gbest, best_cost, eval_cost
+    return gbest, iter_best, eval_cost
     
     
     
@@ -109,12 +110,12 @@ def test():
         'scale': (problem['var_max'] - problem['var_min']),
     }
 
-    gbest, best_cost = fireFly(problem, param)
-    print(best_cost)
+    gbest, iter_best, eval_cost = fireFly(problem, param)
+    print(iter_best)
     print('\nglobal best:')
     print(gbest)
 
-    plt.plot(range(0,param['itermax']), best_cost)
+    plt.plot(range(0,param['itermax']), iter_best)
     plt.grid(True)
     plt.show()
 
