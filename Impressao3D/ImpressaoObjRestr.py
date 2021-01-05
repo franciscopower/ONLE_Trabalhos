@@ -3,6 +3,7 @@ import interpretGCode
 import moveObjects
 import matplotlib.pyplot as plt
 from shapely.geometry import Polygon
+import pandas as pd
 
 from FF_3D import fireFly
 
@@ -246,6 +247,7 @@ def main():
     best_cost_total = []
     best_global_best = [np.inf]*param['itermax']
     gbest_value = np.inf
+
     for _ in range(1):
         
         gbest, iter_best, eval_cost = fireFly(problem, param)
@@ -284,6 +286,21 @@ def main():
     plt.grid(True)
     plt.yscale("log",basey=10)
     plt.show()
+    
+    
+    eval_cost_df = pd.DataFrame({"evaluation_cost":eval_cost})
+    eval_cost_df.to_csv('impressao3D_eval_cost.csv')
+    
+    columns = ['x'+str(n+1) for n in range(problem['nVar'])]
+    columns = ['cost'] + columns
+    
+    data = np.zeros((param['itermax'],problem["nVar"]+1))
+    for l in range(param['itermax']):
+        data[l][0] = iter_best['cost'][l]
+        data[l][1:] = iter_best['pos'][l]
+            
+    iter_cost_df = pd.DataFrame(data, columns=columns)
+    iter_cost_df.to_csv('impressao3D_iteration_cost.csv')
 
 
 if __name__ == "__main__":

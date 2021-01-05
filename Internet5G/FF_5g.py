@@ -2,15 +2,6 @@ import numpy as np
 from math import gamma, sin, pi
 import matplotlib.pyplot as plt
 
-def sphere(x):
-    #! so para testar
-    s = sum(x**2)
-    return s
-
-def rosenBrock(X, a=1, b=100):
-    x,y=X
-    return ((a-x)**2+b*(y-x**2)**2)
-
 def fireFly(problem, param, **kwargs):
     func = problem['costFunction']
     xmin = problem['var_min']
@@ -51,8 +42,8 @@ def fireFly(problem, param, **kwargs):
             gbest['pos'] = pop[i]['pos'].copy()
             gbest['cost'] = pop[i]['cost'].copy()
             
-    best_cost = []
-        
+    iter_best = {'pos':[],'cost':[]}
+    eval_cost = []        
     # main loop
     for _ in range(0, itermax):
         
@@ -81,41 +72,11 @@ def fireFly(problem, param, **kwargs):
         pop = sorted(pop, key=lambda i: i['cost'])
         pop = pop[0:npop]
         
-        best_cost.append(gbest['cost'])
-        
+        iter_best['cost'].append(gbest['cost'])
+        iter_best['pos'].append(gbest['pos'])      
+          
         alpha = alpha * damp
         
-    return gbest, best_cost
+    return gbest, iter_best, eval_cost
     
-    
-    
-# #-----------------------------------------------------
-def test():
-    problem = {
-        'costFunction': sphere,
-        'nVar': 2,
-        'var_min': -5,
-        'var_max': 5,   
-    }    
-    param = {
-        'itermax': 50,
-        'npop': 20,
-        'gamma': 1,
-        'beta0': 1,
-        'alpha': 0.2,
-        'damp': 0.9,
-        'scale': (problem['var_max'] - problem['var_min']),
-    }
-
-    gbest, best_cost = fireFly(problem, param)
-    print(best_cost)
-    print('\nglobal best:')
-    print(gbest)
-
-    plt.plot(range(0,param['itermax']), best_cost)
-    plt.grid(True)
-    plt.show()
-
-if __name__ == "__main__":
-    test()
 

@@ -173,11 +173,8 @@ def main():
     for l in range(param['itermax']):
         data[l][0] = iter_best['cost'][l]
         data[l][1:] = iter_best['pos'][l]
-        
-    # print(data)
-    
+            
     iter_cost_df = pd.DataFrame(data, columns=columns)
-    print(iter_cost_df)
     iter_cost_df.to_csv('benchmark_iteration_cost.csv')
 
 

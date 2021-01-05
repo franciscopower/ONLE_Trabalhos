@@ -2,15 +2,6 @@ import numpy as np
 from math import gamma, sin, pi
 import matplotlib.pyplot as plt
 
-def sphere(x):
-    #! so para testar
-    s = sum(x**2)
-    return s
-
-def rosenBrock(X, a=1, b=100):
-    x,y=X
-    return ((a-x)**2+b*(y-x**2)**2)
-
 def fireFly(problem, param, **kwargs):
     func = problem['costFunction']
     xmin = problem['var_min']
@@ -90,35 +81,5 @@ def fireFly(problem, param, **kwargs):
         
     return gbest, iter_best, eval_cost
     
-    
-    
-# #-----------------------------------------------------
-def test():
-    problem = {
-        'costFunction': sphere,
-        'nVar': 2,
-        'var_min': -5,
-        'var_max': 5,   
-    }    
-    param = {
-        'itermax': 50,
-        'npop': 20,
-        'gamma': 1,
-        'beta0': 1,
-        'alpha': 0.2,
-        'damp': 0.9,
-        'scale': (problem['var_max'] - problem['var_min']),
-    }
 
-    gbest, iter_best, eval_cost = fireFly(problem, param)
-    print(iter_best)
-    print('\nglobal best:')
-    print(gbest)
-
-    plt.plot(range(0,param['itermax']), iter_best)
-    plt.grid(True)
-    plt.show()
-
-if __name__ == "__main__":
-    test()
 

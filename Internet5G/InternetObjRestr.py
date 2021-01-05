@@ -6,6 +6,7 @@ from functools import partial
 import math
 from FF_5g import fireFly
 import matplotlib.pyplot as plt
+import pandas as pd
 
 import ray_tracer
 
@@ -55,8 +56,6 @@ def objective_function(x, kwargs):
     #     (0,0),
     #     (120,30),
     #     ] # isto ja esta a considerar o scale factor... mas deveria?
-    #allowed_position = cv.imread('allowed_position.png', 0)
-    # _, allowed_position = cv.threshold(allowed_position, 5, 255, cv.THRESH_BINARY)
 
     # power = 100
     # value_min = 0
@@ -72,28 +71,30 @@ def objective_function(x, kwargs):
     intensity_matrix = ray_tracer.intensityMatrix(bump_map, src_pos, power, restriction_map, scale_real)
 
     # Check restrictions
-    restriction_min_intensity = restriction_intesity_min(intensity_matrix,bump_map, power, value_min)
+    # restriction_min_intensity = restriction_intesity_min(intensity_matrix,bump_map, power, value_min)
     
     _, bump_map_inv = cv.threshold(bump_map, 5, 255, cv.THRESH_BINARY_INV)
-    restriction_position = restriction_verify_position(bump_map_inv, src_pos) #! aqui sera usada uma imagem propria, allowed_position, nao o inverso do bump_map
+    # restriction_position = restriction_verify_position(bump_map_inv, src_pos) # aqui sera usada uma imagem propria, allowed_position, nao o inverso do bump_map
     
     #Calculate objective function
     funcao_objtivo = objFunction(intensity_matrix,bump_map_inv)
 
-    #Print results
-    # print('Objective Function: ' + str(funcao_objtivo))
+#_______________________________________________________________________________
+#
+    # Print results
+    print('Objective Function: ' + str(funcao_objtivo))
     # print('Minimum intensity restriction: ' + str(restriction_min_intensity))
     # print('Position restriction: ' + str(restriction_position))
-    #
-    # #visualize result
-    # final_visualization = intensity_matrix * 255 / power * 10
-    # final_visualization = cv.resize(final_visualization, (original_size[1], original_size[0]))
-    # cv.imshow('light_window', final_visualization)
-    #
-    # bump_map = cv.resize(bump_map,  (original_size[1], original_size[0]))
-    # cv.imshow('bump_map_window', bump_map)
-    #
-    # cv.waitKey(0)
+    
+    #visualize result
+    final_visualization = intensity_matrix * 255 / power * 10
+    final_visualization = cv.resize(final_visualization, (original_size[1], original_size[0]))
+    cv.imshow('light_window', final_visualization)
+    
+    bump_map = cv.resize(bump_map,  (original_size[1], original_size[0]))
+    cv.imshow('bump_map_window', bump_map)
+    
+    cv.waitKey(0)
 
     return funcao_objtivo
 
@@ -117,8 +118,8 @@ def main():
         'var_max': [bump_map.shape[1], bump_map.shape[0]]*ntorre
     }
     param = {
-        'itermax': 10,
-        'npop': 100,
+        'itermax': 2,
+        'npop': 2,
         'gamma': 1, #1
         'beta0': 1.8,
         'alpha': 0.1, #0.2
@@ -126,18 +127,81 @@ def main():
         'scale': (np.array(problem['var_max']) - np.array(problem['var_min'])),
     }
 
-    gbest, best_cost = fireFly(problem, param, bump_map=bump_map, power=power, value_min=value_min, restriction_map=restriction_map)
-    print(best_cost)
-    print('\nglobal best:')
-    print(gbest)
+    
+    best_cost_total = []
+    best_global_best = [np.inf]*param['itermax']
+    gbest_value = np.inf
 
-    plt.plot(range(0, param['itermax']), best_cost)
+    for _ in range(1):
+        
+        gbest, iter_best, eval_cost = fireFly(problem, param, bump_map=bump_map, restriction_map=restriction_map, power=power, value_min=value_min)
+        
+        best_cost_total.append(iter_best['cost'])
+        
+        if gbest_value > gbest['cost']:
+            gbest_value = gbest['cost']
+            gbest_pos = gbest['pos']
+            best_global_best = iter_best['cost']
+        
+        
+        print(iter_best)
+        print('\nGlobal best in test:')
+        print(gbest)
+        
+        # plt.plot(eval_cost)
+        
+    print('\n----------------------------------\n')
+    print('Global best cost: ' + str(gbest_value))
+    print('Global best position: ')
+    print(gbest_pos)
+        
+    average_best = [0]*len(iter_best['cost'])
+    for i in range(0,len(best_cost_total)):
+        for j in range(0, len(iter_best['cost'])):
+            average_best[j] += best_cost_total[i][j]
+    average_best = [i/(len(best_cost_total)) for i in average_best]
+    plt.plot(range(0, param['itermax']), average_best, label='Curva media de convergencia')
+    plt.plot(range(0, param['itermax']), best_global_best, label='Melhor curva de convergencia')
+    
+    plt.title("Evolucao do custo da funcao objetivo")
+    plt.xlabel("Avaliacao")
+    plt.ylabel("Custo")
+    plt.legend(loc="upper left")
     plt.grid(True)
+    plt.yscale("log",basey=10)
     plt.show()
+    
+    
+    eval_cost_df = pd.DataFrame({"evaluation_cost":eval_cost})
+    eval_cost_df.to_csv('internet5G_eval_cost.csv')
+    
+    columns = ['x'+str(n+1) for n in range(problem['nVar'])]
+    columns = ['cost'] + columns
+    
+    data = np.zeros((param['itermax'],problem["nVar"]+1))
+    for l in range(param['itermax']):
+        data[l][0] = iter_best['cost'][l]
+        data[l][1:] = iter_best['pos'][l]
+            
+    iter_cost_df = pd.DataFrame(data, columns=columns)
+    iter_cost_df.to_csv('internet5G_iteration_cost.csv')
 
 
 if __name__ == '__main__':
     main()
+    
+    # # Dados para testar funcao objetivo----------------------
+    # bump_map = cv.imread('Internet5G/bump_map1.png', 0)
+    # restriction_map = cv.imread('Internet5G/bump_map1.png', 0)
+
+    # x = np.array([50, 50, 120, 30])
+    
+    # power = 100
+    # value_min = 0
+    
+    # kwargs = {'bump_map':bump_map, 'restriction_map': restriction_map, 'power':power, 'value_min':value_min}
+    
+    # custo = objective_function(x, kwargs)
 
 
 
