@@ -96,7 +96,7 @@ def main():
     
     power = 100
     value_min = 0
-    ntorre=2
+    ntorre=5
 
     problem = {
         'costFunction': objective_function,
@@ -105,8 +105,8 @@ def main():
         'var_max': [bump_map.shape[1], bump_map.shape[0]]*ntorre
     }
     param = {
-        'itermax': 2,
-        'npop': 2,
+        'itermax': 10,
+        'npop': 50,
         'gamma': 1, #1
         'beta0': 1.8,
         'alpha': 0.1, #0.2
