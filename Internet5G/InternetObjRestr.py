@@ -57,7 +57,7 @@ def objective_function(x, kwargs):
     intensity_matrix = ray_tracer.intensityMatrix(bump_map, src_pos, power, restriction_map, scale_real)
     
     #Calculate objective function
-    funcao_objtivo = objFunction(intensity_matrix,restriction_map)
+    funcao_objtivo = 1/objFunction(intensity_matrix,restriction_map)
 
 #_______________________________________________________________________________
 #
