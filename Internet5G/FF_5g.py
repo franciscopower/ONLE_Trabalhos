@@ -58,6 +58,7 @@ def fireFly(problem, param, **kwargs):
                     new['pos'] = np.minimum(np.maximum(position, xmin), xmax)
                     
                     new['cost'] = func(new['pos'], kwargs)
+                    eval_cost.append(new['cost'])
                     
                     if new['cost'] < new_pop[i]['cost']:
                         new_pop[i]['pos'] = new['pos'].copy()
