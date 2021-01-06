@@ -106,7 +106,7 @@ def main():
     }    
     param = {
         'itermax': 10,
-        'npop': 100,
+        'npop': 50,
         'gamma': 1, #1
         'beta0': 1.8,
         'alpha': 0.1, #0.2
@@ -139,7 +139,7 @@ def main():
         # print('Restricoes')
         # print(G1(gbest['pos']),G2(gbest['pos']),G3(gbest['pos']),G4(gbest['pos']),G5(gbest['pos']),G6(gbest['pos']),G7(gbest['pos']),G8(gbest['pos']),G9(gbest['pos']),G10(gbest['pos']),G11(gbest['pos']),)
         
-        # plt.plot(eval_cost)
+        plt.plot(eval_cost)
         
     print('\n----------------------------------\n')
     print('Global best cost: ' + str(gbest_value))

@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import numpy as np
 import interpretGCode
 import moveObjects
@@ -177,7 +179,7 @@ def restrictionMinDist(objs, d_min):
         list_size_ogj.append(len(poli[u]))
         list_compre.append(True)
 
-    for l in range(0, max(list_size_ogj)):
+    for l in range(0, max(list_size_ogj),10):
         for n in range(0, nobj):
             if l >= list_size_ogj[n]:
                 list_compre[n] = False
@@ -271,8 +273,8 @@ def main():
         'var_max': [100, 100, 2*np.pi]*len(objs),
     }
     param = {
-        'itermax': 2,
-        'npop': 2,
+        'itermax': 10,
+        'npop': 50,
         'gamma': 1,  # 1
         'beta0': 1.8,
         'alpha': 0.1,  # 0.2

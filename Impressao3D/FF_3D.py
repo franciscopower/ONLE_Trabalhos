@@ -44,9 +44,10 @@ def fireFly(problem, param, **kwargs):
             
     iter_best = {'pos':[],'cost':[]}
     eval_cost = []
+    eval = 0
         
     # main loop
-    for _ in range(0, itermax):
+    for iter in range(0, itermax):
         
         for i in range(0, npop):
             new_pop[i]['cost'] = np.inf
@@ -59,6 +60,8 @@ def fireFly(problem, param, **kwargs):
                     new['pos'] = np.minimum(np.maximum(position, xmin), xmax)
                     
                     new['cost'] = func(new['pos'], kwargs)
+                    print('Avaliacao ' + str(eval))
+                    eval +=1
                     eval_cost.append(new['cost'])
                     
                     if new['cost'] < new_pop[i]['cost']:
@@ -78,7 +81,7 @@ def fireFly(problem, param, **kwargs):
         iter_best['pos'].append(gbest['pos'])
         
         alpha = alpha * damp
-        print("ole")
+        print("Iteracao " + str(iter))
         
     return gbest, iter_best, eval_cost
     
