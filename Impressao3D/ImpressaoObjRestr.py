@@ -42,7 +42,7 @@ def objFunction(objs):
 
             for i in obj_idx:
                 # check if object has current layer
-                if objs[i][1].shape[1] == l + 1:
+                if objs[i][1].shape[1] >= l + 1:
                     try:
                         total_obj_idx.pop(total_obj_idx.index(i))
                     except:
@@ -250,7 +250,7 @@ def main():
 
     for _ in range(1):
         
-        gbest, iter_best, eval_cost = fireFly(problem, param)
+        gbest, iter_best, eval_cost = fireFly(problem, param, objs=objs)
         
         best_cost_total.append(iter_best['cost'])
         
@@ -298,11 +298,11 @@ def main():
     for l in range(param['itermax']):
         data[l][0] = iter_best['cost'][l]
         data[l][1:] = iter_best['pos'][l]
-            
+
     iter_cost_df = pd.DataFrame(data, columns=columns)
     iter_cost_df.to_csv('impressao3D_iteration_cost.csv')
 
 
 if __name__ == "__main__":
-    # main()
-    objFunctionComplete(0,0)
+    main()
+    #objFunctionComplete(0,0)

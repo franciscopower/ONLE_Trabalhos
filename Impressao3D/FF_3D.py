@@ -78,6 +78,7 @@ def fireFly(problem, param, **kwargs):
         iter_best['pos'].append(gbest['pos'])
         
         alpha = alpha * damp
+        print("ole")
         
     return gbest, iter_best, eval_cost
     
