@@ -102,7 +102,7 @@ def main():
         'costFunction': objective_function,
         'nVar': 2*ntorre,
         'var_min': [0.0, 0.0]*ntorre,
-        'var_max': [bump_map.shape[1], bump_map.shape[0]]*ntorre
+        'var_max': [bump_map.shape[1]-1, bump_map.shape[0]-1]*ntorre
     }
     param = {
         'itermax': 10,
