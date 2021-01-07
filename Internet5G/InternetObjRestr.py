@@ -13,7 +13,7 @@ import ray_tracer
 # original_size = None #! para visualizacao
 
 def objFunction(intensidty, bump_map):
-    area_disponivel=np.sum(bump_map/255)
+    area_disponivel=np.sum((255-bump_map)/255)/2
 
     intensidade_total=np.sum(intensidty)
 
