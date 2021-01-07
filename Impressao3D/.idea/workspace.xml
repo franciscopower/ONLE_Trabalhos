@@ -20,15 +20,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e62e0bc1-fc98-49d5-81c7-117d9bc1cf06" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/printResultados.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FF_3D.py" beforeDir="false" afterPath="$PROJECT_DIR$/FF_3D.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ImpressaoObjRestr.py" beforeDir="false" afterPath="$PROJECT_DIR$/ImpressaoObjRestr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Internet5G/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/../Internet5G/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Internet5G/InternetObjRestr.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Internet5G/InternetObjRestr.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -62,6 +70,7 @@
       <workItem from="1609581028244" duration="10198000" />
       <workItem from="1609601858115" duration="600000" />
       <workItem from="1609887932265" duration="2804000" />
+      <workItem from="1610019898186" duration="1090000" />
     </task>
     <servers />
   </component>
