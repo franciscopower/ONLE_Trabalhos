@@ -45,9 +45,8 @@ def calculateIntensity(src_pos, point, power, bump_map, restriction_map, scale_r
 
     return intensity
 
-def intensityMatrix(bump_map,src_pos,power, restriction_map, scale_real):
+def intensityMatrix(bump_map,src_pos,power, restriction_map, scale_real, density):
     
-    density=2
     intensity_values = np.zeros(bump_map.shape)
 
     # calculate intensity matrix

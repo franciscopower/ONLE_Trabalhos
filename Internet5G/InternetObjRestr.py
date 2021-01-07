@@ -12,8 +12,10 @@ import ray_tracer
 
 # original_size = None #! para visualizacao
 
+density = 2
+
 def objFunction(intensidty, bump_map):
-    area_disponivel=np.sum((255-bump_map)/255)/2
+    area_disponivel=np.sum((255-bump_map)/255)/density
 
     intensidade_total=np.sum(intensidty)
 
@@ -54,10 +56,13 @@ def objective_function(x, kwargs):
     src_pos=x.reshape(x.shape[0]/2,2)
 
     # devolve a matriz intencidades procesadas pelo algoritmo ray_tracer
-    intensity_matrix = ray_tracer.intensityMatrix(bump_map, src_pos, power, restriction_map, scale_real)
+    intensity_matrix = ray_tracer.intensityMatrix(bump_map, src_pos, power, restriction_map, scale_real, density)
     
     #Calculate objective function
-    funcao_objtivo = 1/objFunction(intensity_matrix,restriction_map)
+    try:
+        funcao_objtivo = 1/objFunction(intensity_matrix,restriction_map)
+    except:
+        funcao_objtivo = np.inf
 
 #_______________________________________________________________________________
 #
@@ -96,7 +101,7 @@ def main():
     
     power = 0.5 # mW
     value_min = 0.000000121
-    ntorre=5
+    ntorre=3
 
     problem = {
         'costFunction': objective_function,
@@ -160,7 +165,7 @@ def main():
     
     
     eval_cost_df = pd.DataFrame({"evaluation_cost":eval_cost})
-    eval_cost_df.to_csv('internet5G_eval_cost_5_torres.csv')
+    eval_cost_df.to_csv('internet5G_eval_cost_3_torres.csv')
     
     columns = ['x'+str(n+1) for n in range(problem['nVar'])]
     columns = ['cost'] + columns
@@ -171,7 +176,7 @@ def main():
         data[l][1:] = iter_best['pos'][l]
             
     iter_cost_df = pd.DataFrame(data, columns=columns)
-    iter_cost_df.to_csv('internet5G_iteration_cost_5_torres.csv')
+    iter_cost_df.to_csv('internet5G_iteration_cost_3_torres.csv')
 
 
 if __name__ == '__main__':
