@@ -196,12 +196,12 @@ def restrictionMinDist(objs, d_min):
                         if poli[e][l].distance(poli[r][l]) < d_min:
                             distsoma = d_min - poli[e][l].distance(poli[r][l])
 
-    penalizacao = ariaint * 10000 + distsoma * 10000
+    penalizacao = ariaint * 1e6 + distsoma * 1e6
 
     return penalizacao
 
 def checkInHotBed(objs, hot_bed_size_x, hot_bed_size_y):
-    fator_penalizacao = 1e3
+    fator_penalizacao = 1e6
     penalizacao_x = 0
     penalizacao_y = 0
     penalizacao_t = 0
