@@ -94,8 +94,8 @@ def main():
     
     restriction_map = cv.resize(restriction_map, (int(restriction_map.shape[1] / scale_factor), int(restriction_map.shape[0] / scale_factor)))
     
-    power = 100
-    value_min = 0
+    power = 0.0005
+    value_min = 0.000000121
     ntorre=5
 
     problem = {
