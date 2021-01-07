@@ -19,12 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e62e0bc1-fc98-49d5-81c7-117d9bc1cf06" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/printResultados.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+    <list default="true" id="e62e0bc1-fc98-49d5-81c7-117d9bc1cf06" name="Default Changelist" comment="resultado 10 torres">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Internet5G/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/../Internet5G/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Internet5G/InternetObjRestr.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Internet5G/InternetObjRestr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/printResultados.py" beforeDir="false" afterPath="$PROJECT_DIR$/printResultados.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +48,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Internet5G" />
     <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -70,8 +67,17 @@
       <workItem from="1609581028244" duration="10198000" />
       <workItem from="1609601858115" duration="600000" />
       <workItem from="1609887932265" duration="2804000" />
-      <workItem from="1610019898186" duration="1090000" />
+      <workItem from="1610019898186" duration="1843000" />
+      <workItem from="1610022214459" duration="730000" />
     </task>
+    <task id="LOCAL-00001" summary="resultado 10 torres">
+      <created>1610021030912</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1610021030912</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -88,5 +94,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="resultado 10 torres" />
+    <option name="LAST_COMMIT_MESSAGE" value="resultado 10 torres" />
   </component>
 </project>

@@ -1,29 +1,33 @@
 import pandas as pd
 import numpy as np
-
-
-
+import matplotlib.pyplot as plt
+import moveObjects
+import interpretGCode
 
 
 
 
 def main():
     results = pd.read_csv('impressao3D_iteration_cost.csv')
-    pos = results.values[1,2:]
-    print(pos)
+    x = results.values[4,2:]
+
+    objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
+    trans_list = x.reshape(x.shape[0] / 3, 3)
+    newobjs=moveObjects.moveObjects(objs,trans_list)
+    moveObjects.showObjects(newobjs)
 
 
-def showObjects(new_objs):
-    # plot points
-    plt.figure()
-    ax = plt.axes(projection='3d')
-    for o in new_objs:
-        ax.plot3D(o[0][0,:], o[0][1,:], o[0][2,:])
 
-    ax.set_xlabel('x')
-    ax.set_ylabel('y')
 
-    plt.show()
+
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     main()
