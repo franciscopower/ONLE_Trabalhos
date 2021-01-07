@@ -83,18 +83,18 @@ def main():
     # global original_size #! para visualizacao
     
     # Dados ----------------------
-    bump_map = cv.imread('Internet5G/bump_map1.png', 0)
-    restriction_map = cv.imread('Internet5G/bump_map1.png', 0)
+    bump_map = cv.imread('Internet5G/bump_map_campus.jpg', 0)
+    restriction_map = cv.imread('Internet5G/restriction_map_campus.jpg', 0)
     
     # original_size = bump_map.shape #! para visualizacao
     
     scale_factor = 4
-    scale_real = scale_factor
+    scale_real = scale_factor*0.5409 # m/px
     bump_map = cv.resize(bump_map, (int(bump_map.shape[1] / scale_factor), int(bump_map.shape[0] / scale_factor)))
     
     restriction_map = cv.resize(restriction_map, (int(restriction_map.shape[1] / scale_factor), int(restriction_map.shape[0] / scale_factor)))
     
-    power = 0.0005
+    power = 0.5 # mW
     value_min = 0.000000121
     ntorre=5
 
@@ -160,7 +160,7 @@ def main():
     
     
     eval_cost_df = pd.DataFrame({"evaluation_cost":eval_cost})
-    eval_cost_df.to_csv('internet5G_eval_cost.csv')
+    eval_cost_df.to_csv('internet5G_eval_cost_5_torres.csv')
     
     columns = ['x'+str(n+1) for n in range(problem['nVar'])]
     columns = ['cost'] + columns
@@ -171,7 +171,7 @@ def main():
         data[l][1:] = iter_best['pos'][l]
             
     iter_cost_df = pd.DataFrame(data, columns=columns)
-    iter_cost_df.to_csv('internet5G_iteration_cost.csv')
+    iter_cost_df.to_csv('internet5G_iteration_cost_5_torres.csv')
 
 
 if __name__ == '__main__':
