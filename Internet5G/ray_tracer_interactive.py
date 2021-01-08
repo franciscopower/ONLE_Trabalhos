@@ -89,7 +89,7 @@ def intensityMatrix():
     light_window = "Light"
     bump_map_window = "Bump Map"
     
-    bump_map = cv.imread('Internet5G/bump_map1.png',0)
+    bump_map = cv.imread('Internet5G/bump_map_campus.jpg',0)
     
     cv.imshow(bump_map_window, bump_map)
     original_size = bump_map.shape

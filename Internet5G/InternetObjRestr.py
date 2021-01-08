@@ -88,8 +88,8 @@ def main():
     # global original_size #! para visualizacao
     
     # Dados ----------------------
-    bump_map = cv.imread('Internet5G/bump_map_campus.jpg', 0)
-    restriction_map = cv.imread('Internet5G/restriction_map_campus.jpg', 0)
+    bump_map = cv.imread('Internet5G/bump_map_campusV2.jpg', 0)
+    restriction_map = cv.imread('Internet5G/restriction_map_campusV2.jpg', 0)
     
     # original_size = bump_map.shape #! para visualizacao
     
@@ -101,7 +101,7 @@ def main():
     
     power = 0.5 # mW
     value_min = 0.000000121
-    ntorre=3
+    ntorre=8
 
     problem = {
         'costFunction': objective_function,
@@ -142,6 +142,23 @@ def main():
         
         # plt.plot(eval_cost)
         
+# ---------------- save csv files -----------------------------------
+    eval_cost_df = pd.DataFrame({"evaluation_cost":eval_cost})
+    eval_cost_df.to_csv('internet5G_V2_eval_cost_8_torres.csv')
+    
+    columns = ['x'+str(n+1) for n in range(problem['nVar'])]
+    columns = ['cost'] + columns
+    
+    data = np.zeros((param['itermax'],problem["nVar"]+1))
+    for l in range(param['itermax']):
+        data[l][0] = iter_best['cost'][l]
+        data[l][1:] = iter_best['pos'][l]
+            
+    iter_cost_df = pd.DataFrame(data, columns=columns)
+    iter_cost_df.to_csv('internet5G_V2_iteration_cost_8_torres.csv')
+# -------------------------------------------------------------------
+    
+    
     print('\n----------------------------------\n')
     print('Global best cost: ' + str(gbest_value))
     print('Global best position: ')
@@ -164,19 +181,7 @@ def main():
     plt.show()
     
     
-    eval_cost_df = pd.DataFrame({"evaluation_cost":eval_cost})
-    eval_cost_df.to_csv('internet5G_eval_cost_3_torres.csv')
     
-    columns = ['x'+str(n+1) for n in range(problem['nVar'])]
-    columns = ['cost'] + columns
-    
-    data = np.zeros((param['itermax'],problem["nVar"]+1))
-    for l in range(param['itermax']):
-        data[l][0] = iter_best['cost'][l]
-        data[l][1:] = iter_best['pos'][l]
-            
-    iter_cost_df = pd.DataFrame(data, columns=columns)
-    iter_cost_df.to_csv('internet5G_iteration_cost_3_torres.csv')
 
 
 if __name__ == '__main__':
