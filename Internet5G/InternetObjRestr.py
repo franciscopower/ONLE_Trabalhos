@@ -23,15 +23,18 @@ def objFunction(intensidty, bump_map):
     
     return funcao_objtivo
 
-def restriction_verify_position(bump_map,src_pos):
+def restriction_verify_position(restriction_map,src_pos):
     # objtivo por os router so na zona premitida
 
+    penalization = 0
+
     for point in src_pos:
+        if restriction_map[point[1]][point[0]] == 255:
+            penalization += 1e4
+        else:
+            penalization += 0
 
-        if bump_map[point[1]][point[0]] != 255:
-            return False
-
-    return True
+    return penalization
 
 def restriction_intesity_min(matriz, bump_map, power, value_min):
     # restricao para verificar a intencidade
@@ -60,10 +63,10 @@ def objective_function(x, kwargs):
     
     #Calculate objective function
     try:
-        funcao_objtivo = 1/objFunction(intensity_matrix,restriction_map)
+        funcao_objtivo = 1/objFunction(intensity_matrix,restriction_map) + restriction_verify_position(restriction_map,src_pos)
     except:
         funcao_objtivo = np.inf
-
+        
 #_______________________________________________________________________________
 #
     # # Print results

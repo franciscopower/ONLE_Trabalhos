@@ -3,8 +3,8 @@ import numpy as np
 import ray_tracer
 import cv2 as cv
 
-results = pd.read_csv('internet5G_V2_iteration_cost_5_torres.csv')
-x = results.values[1,2:]
+results = pd.read_csv('internet5G_V2_iteration_cost_9_torres.csv')
+x = results.values[-1,2:]
 x = x.astype(int)
 src_pos=x.reshape(x.shape[0]/2,2)
 
@@ -52,6 +52,5 @@ for pos in src_pos:
     heatmap = cv.circle(heatmap, (pos[0]*scale_factor,pos[1]*scale_factor), 10, (255,255,255), -1)
     
 cv.imshow('heatmap', heatmap)
-
 
 cv.waitKey(0)
