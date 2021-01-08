@@ -19,9 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e62e0bc1-fc98-49d5-81c7-117d9bc1cf06" name="Default Changelist" comment="resultado 10 torres">
+    <list default="true" id="e62e0bc1-fc98-49d5-81c7-117d9bc1cf06" name="Default Changelist" comment="funcao visualizar">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImpressaoObjRestr.py" beforeDir="false" afterPath="$PROJECT_DIR$/ImpressaoObjRestr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/printResultados.py" beforeDir="false" afterPath="$PROJECT_DIR$/printResultados.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Internet5G/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/../Internet5G/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Internet5G/InternetObjRestr.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Internet5G/InternetObjRestr.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +72,10 @@
       <workItem from="1609601858115" duration="600000" />
       <workItem from="1609887932265" duration="2804000" />
       <workItem from="1610019898186" duration="1843000" />
-      <workItem from="1610022214459" duration="730000" />
+      <workItem from="1610022214459" duration="2214000" />
+      <workItem from="1610036572652" duration="413000" />
+      <workItem from="1610045201091" duration="352000" />
+      <workItem from="1610066306574" duration="723000" />
     </task>
     <task id="LOCAL-00001" summary="resultado 10 torres">
       <created>1610021030912</created>
@@ -77,7 +84,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610021030912</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="funcao visualizar">
+      <created>1610023092997</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1610023092997</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -97,6 +111,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="resultado 10 torres" />
-    <option name="LAST_COMMIT_MESSAGE" value="resultado 10 torres" />
+    <MESSAGE value="funcao visualizar" />
+    <option name="LAST_COMMIT_MESSAGE" value="funcao visualizar" />
   </component>
 </project>

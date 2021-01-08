@@ -101,7 +101,7 @@ def main():
     
     power = 0.5 # mW
     value_min = 0.000000121
-    ntorre=8
+    ntorre=5
 
     problem = {
         'costFunction': objective_function,
@@ -144,7 +144,7 @@ def main():
         
 # ---------------- save csv files -----------------------------------
     eval_cost_df = pd.DataFrame({"evaluation_cost":eval_cost})
-    eval_cost_df.to_csv('internet5G_V2_eval_cost_8_torres.csv')
+    eval_cost_df.to_csv('internet5G_V2_eval_cost_5_torresop3.csv')
     
     columns = ['x'+str(n+1) for n in range(problem['nVar'])]
     columns = ['cost'] + columns
@@ -155,7 +155,7 @@ def main():
         data[l][1:] = iter_best['pos'][l]
             
     iter_cost_df = pd.DataFrame(data, columns=columns)
-    iter_cost_df.to_csv('internet5G_V2_iteration_cost_8_torres.csv')
+    iter_cost_df.to_csv('internet5G_V2_iteration_cost_5_torresop3.csv')
 # -------------------------------------------------------------------
     
     

@@ -179,7 +179,7 @@ def restrictionMinDist(objs, d_min):
         list_size_ogj.append(len(poli[u]))
         list_compre.append(True)
 
-    for l in range(0, max(list_size_ogj),10):
+    for l in range(0, max(list_size_ogj),7):
         for n in range(0, nobj):
             if l >= list_size_ogj[n]:
                 list_compre[n] = False
@@ -274,7 +274,7 @@ def main():
     }
     param = {
         'itermax': 10,
-        'npop': 50,
+        'npop': 100,
         'gamma': 1,  # 1
         'beta0': 1.8,
         'alpha': 0.1,  # 0.2
@@ -328,7 +328,7 @@ def main():
     
     
     eval_cost_df = pd.DataFrame({"evaluation_cost":eval_cost})
-    eval_cost_df.to_csv('impressao3D_eval_cost.csv')
+    eval_cost_df.to_csv('impressao3D_eval_costv3_100.csv')
     
     columns = ['x'+str(n+1) for n in range(problem['nVar'])]
     columns = ['cost'] + columns
@@ -339,7 +339,7 @@ def main():
         data[l][1:] = iter_best['pos'][l]
 
     iter_cost_df = pd.DataFrame(data, columns=columns)
-    iter_cost_df.to_csv('impressao3D_iteration_cost.csv')
+    iter_cost_df.to_csv('impressao3D_iteration_costv3_100.csv')
 
 
 if __name__ == "__main__":
