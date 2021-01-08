@@ -264,6 +264,9 @@ def objFunctionComplete(x, kwargs):
 
 
 def main():
+    
+    n_teste = str(input('Teste numero: '))
+    
     objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
 
     problem = {
@@ -328,7 +331,7 @@ def main():
     
     
     eval_cost_df = pd.DataFrame({"evaluation_cost":eval_cost})
-    eval_cost_df.to_csv('impressao3D_eval_costv3_100.csv')
+    eval_cost_df.to_csv('impressao3D_eval_cost_t' + n_teste + '.csv')
     
     columns = ['x'+str(n+1) for n in range(problem['nVar'])]
     columns = ['cost'] + columns
@@ -339,7 +342,7 @@ def main():
         data[l][1:] = iter_best['pos'][l]
 
     iter_cost_df = pd.DataFrame(data, columns=columns)
-    iter_cost_df.to_csv('impressao3D_iteration_costv3_100.csv')
+    iter_cost_df.to_csv('impressao3D_iteration_cost_t' + n_teste + '.csv')
 
 
 if __name__ == "__main__":
