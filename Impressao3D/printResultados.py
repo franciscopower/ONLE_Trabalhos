@@ -5,7 +5,7 @@ import moveObjects
 import interpretGCode
 
 
-results = pd.read_csv('impressao3D_iteration_cost_t210.csv')
+results = pd.read_csv('impressao3D_iteration_cost_t200.csv')
 
 x = results.values[4,2:]
 objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
