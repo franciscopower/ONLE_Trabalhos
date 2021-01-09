@@ -3,7 +3,7 @@ import numpy as np
 import ray_tracer
 import cv2 as cv
 
-results = pd.read_csv('internet5G_V2_iteration_cost_9_torres.csv')
+results = pd.read_csv('internet5G_V2_iteration_cost_7_torres_t200.csv')
 x = results.values[-1,2:]
 x = x.astype(int)
 src_pos=x.reshape(x.shape[0]/2,2)
@@ -13,6 +13,11 @@ density = 1
 # Dados ----------------------
 bump_map = cv.imread('Internet5G/bump_map_campusV2.jpg', 0)
 restriction_map = cv.imread('Internet5G/restriction_map_campusV2.jpg', 0)
+
+input_maps = np.ndarray((bump_map.shape[0], bump_map.shape[1], 3))
+input_maps[:,:,0]=restriction_map - bump_map
+input_maps[:,:,1]=0
+input_maps[:,:,2]=bump_map
 
 original_size = bump_map.shape
 
@@ -44,13 +49,15 @@ restriction_map = cv.resize(restriction_map,  (original_size[1], original_size[0
 # cv.imshow('restriction_map_window', restriction_map)
 
 heatmap = np.ndarray((bump_map.shape[0], bump_map.shape[1], 3))
-heatmap[:,:,2]=final_visualization
-heatmap[:,:,0]=bump_map
-heatmap[:,:,1]= 0 #restriction_map-bump_map-final_visualization
+heatmap[:,:,2]=bump_map
+heatmap[:,:,1]=final_visualization
+heatmap[:,:,0]= 0 #restriction_map-bump_map-final_visualization
 
 for pos in src_pos:
     heatmap = cv.circle(heatmap, (pos[0]*scale_factor,pos[1]*scale_factor), 10, (255,255,255), -1)
     
 cv.imshow('heatmap', heatmap)
+cv.imshow('inputs', input_maps)
+cv.imwrite('input_map.png', input_maps)
 
 cv.waitKey(0)
