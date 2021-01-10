@@ -8,7 +8,7 @@ import interpretGCode
 
 
 def main():
-    results = pd.read_csv('impressao3D_iteration_costv2.csv')
+    results = pd.read_csv('impressao3D_iteration_costv3_75.csv')
     x = results.values[4,2:]
 
     objs = interpretGCode.getObjectsPts('Impressao3D/GCode/')
