@@ -3,7 +3,7 @@ import numpy as np
 import ray_tracer
 import cv2 as cv
 
-results = pd.read_csv('internet5G_V2_iteration_cost_9_torres_t200.csv')
+results = pd.read_csv('internet5G_V2_iteration_cost_5_torres_t1002.csv')
 x = results.values[-1,2:]
 x = x.astype(int)
 src_pos=x.reshape(x.shape[0]/2,2)
