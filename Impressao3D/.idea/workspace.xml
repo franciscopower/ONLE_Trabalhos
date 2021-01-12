@@ -21,8 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e62e0bc1-fc98-49d5-81c7-117d9bc1cf06" name="Default Changelist" comment="funcao visualizar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moveObjects.py" beforeDir="false" afterPath="$PROJECT_DIR$/moveObjects.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/printResultados.py" beforeDir="false" afterPath="$PROJECT_DIR$/printResultados.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +76,8 @@
       <workItem from="1610272944991" duration="619000" />
       <workItem from="1610273615624" duration="11000" />
       <workItem from="1610273754642" duration="17000" />
-      <workItem from="1610472039531" duration="4003000" />
+      <workItem from="1610472039531" duration="5133000" />
+      <workItem from="1610477964373" duration="28000" />
     </task>
     <task id="LOCAL-00001" summary="resultado 10 torres">
       <created>1610021030912</created>
