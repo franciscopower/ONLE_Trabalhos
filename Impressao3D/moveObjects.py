@@ -84,7 +84,7 @@ def showObjects(new_objs):
 
     ax.set_xlabel('x')
     ax.set_ylabel('y')
-
+    ax.view_init(elev=90, azim=180)
     plt.show()
 
 
