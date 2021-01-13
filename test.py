@@ -23,10 +23,12 @@ import matplotlib.pyplot as plt
 # print(data[2][1:])
 # print(data)
 
-a = np.array([
-    [1,2,3,4], 
-    [4,3,2,4], 
-    [1,1,1,1]
-])
+# a = np.array([
+#     [1,2,3,4], 
+#     [4,3,2,4], 
+#     [1,1,1,1]
+# ])
 
-print(np.where(a < 2)[0].shape[0])
+# print(np.where(a < 2)[0].shape[0])
+
+print(range(1,20,2))

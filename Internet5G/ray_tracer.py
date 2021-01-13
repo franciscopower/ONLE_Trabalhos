@@ -7,7 +7,7 @@ import math
 
                             
 def calculateIntensity(src_pos, point, power, bump_map, restriction_map, scale_real):
-
+    
     # analise das distacias ao scr
     pt_dist = np.zeros((len(src_pos),3))
 
@@ -48,11 +48,17 @@ def calculateIntensity(src_pos, point, power, bump_map, restriction_map, scale_r
 def intensityMatrix(bump_map,src_pos,power, restriction_map, scale_real, density):
     
     intensity_values = np.zeros(bump_map.shape)
-
+    a_t_d = 0
+    a_o_d = 0
     # calculate intensity matrix
     for l in range(0, bump_map.shape[0] - 1, density):
         for c in range(0, bump_map.shape[1] - 1, density):
             intensity = calculateIntensity(src_pos,(c,l), power, bump_map, restriction_map, scale_real)
             intensity_values[l][c] = intensity
+            a_t_d += 1
+            
+            if bump_map[l,c] != 0:
+                a_o_d += 1
+    
 
-    return (intensity_values)
+    return intensity_values, a_t_d, a_o_d

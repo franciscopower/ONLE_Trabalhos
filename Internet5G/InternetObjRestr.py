@@ -14,12 +14,14 @@ import ray_tracer
 
 density = 2
 
-def objFunction(intensidty, bump_map):
-    area_disponivel=np.sum((255-bump_map)/255)/density
+def objFunction(intensity_matrix, bump_map, value_min, area_total_com_densidade, area_obstrucao_com_densidade):
 
-    intensidade_total=np.sum(intensidty)
-
-    funcao_objtivo=intensidade_total/area_disponivel
+    # area_disponivel=np.sum((255-bump_map)/255)/density
+    # intensidade_total=np.sum(intensidty)
+    # funcao_objtivo=intensidade_total/area_disponivel
+      
+    area_nao_coberta = np.where(intensity_matrix < value_min)[0].shape[0] - area_obstrucao_com_densidade - (bump_map.shape[0]*bump_map.shape[1] - area_total_com_densidade)
+    funcao_objtivo = area_nao_coberta*100.0/area_total_com_densidade
     
     return funcao_objtivo
 
@@ -30,7 +32,7 @@ def restriction_verify_position(restriction_map,src_pos):
 
     for point in src_pos:
         if restriction_map[point[1]][point[0]] == 255:
-            penalization += 1e4
+            penalization += 1000
         else:
             penalization += 0
 
@@ -59,11 +61,11 @@ def objective_function(x, kwargs):
     src_pos=x.reshape(x.shape[0]/2,2)
 
     # devolve a matriz intencidades procesadas pelo algoritmo ray_tracer
-    intensity_matrix = ray_tracer.intensityMatrix(bump_map, src_pos, power, restriction_map, scale_real, density)
+    intensity_matrix, area_total_com_densidade, area_obstrucao_com_densidade = ray_tracer.intensityMatrix(bump_map, src_pos, power, restriction_map, scale_real, density)
     
     #Calculate objective function
     try:
-        funcao_objtivo = 1/objFunction(intensity_matrix,restriction_map) + restriction_verify_position(restriction_map,src_pos)
+        funcao_objtivo = objFunction(intensity_matrix, bump_map, value_min, area_total_com_densidade, area_obstrucao_com_densidade) + restriction_verify_position(restriction_map,src_pos)
     except:
         funcao_objtivo = np.inf
         
@@ -150,7 +152,7 @@ def main():
         
 # ---------------- save csv files -----------------------------------
     eval_cost_df = pd.DataFrame({"evaluation_cost":eval_cost})
-    eval_cost_df.to_csv('internet5G_V2_eval_cost_'+ str(ntorre) + '_torres_t' + n_teste + '.csv')
+    eval_cost_df.to_csv('internet5G_V3_eval_cost_'+ str(ntorre) + '_torres_t' + n_teste + '.csv')
     
     columns = ['x'+str(n+1) for n in range(problem['nVar'])]
     columns = ['cost'] + columns
@@ -161,7 +163,7 @@ def main():
         data[l][1:] = iter_best['pos'][l]
             
     iter_cost_df = pd.DataFrame(data, columns=columns)
-    iter_cost_df.to_csv('internet5G_V2_iteration_cost_'+ str(ntorre) + '_torres_t' + n_teste + '.csv')
+    iter_cost_df.to_csv('internet5G_V3_iteration_cost_'+ str(ntorre) + '_torres_t' + n_teste + '.csv')
 # -------------------------------------------------------------------
     
     

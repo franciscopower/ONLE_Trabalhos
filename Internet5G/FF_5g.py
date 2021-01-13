@@ -40,13 +40,13 @@ def fireFly(problem, param, **kwargs):
         
         if pop[i]['cost'] < gbest['cost']:
             gbest['pos'] = pop[i]['pos'].copy()
-            gbest['cost'] = pop[i]['cost'].copy()
+            gbest['cost'] = pop[i]['cost']#.copy()
             
     iter_best = {'pos':[],'cost':[]}
     eval_cost = []      
     eval = 0  
     # main loop
-    for _ in range(0, itermax):
+    for iteration in range(0, itermax):
         
         for i in range(0, npop):
             new_pop[i]['cost'] = np.inf
@@ -65,10 +65,10 @@ def fireFly(problem, param, **kwargs):
                     
                     if new['cost'] < new_pop[i]['cost']:
                         new_pop[i]['pos'] = new['pos'].copy()
-                        new_pop[i]['cost'] = new['cost'].copy()
+                        new_pop[i]['cost'] = new['cost']#.copy()
                         
                         if new_pop[i]['cost'] < gbest['cost']:
-                            gbest['cost'] = new_pop[i]['cost'].copy()
+                            gbest['cost'] = new_pop[i]['cost']#.copy()
                             gbest['pos'] = new_pop[i]['pos'].copy()
 
     
@@ -80,7 +80,7 @@ def fireFly(problem, param, **kwargs):
         iter_best['pos'].append(gbest['pos'])      
           
         alpha = alpha * damp
-        print("Iteracao " + str(iter))
+        print("Iteracao " + str(iteration))
         
     return gbest, iter_best, eval_cost
     

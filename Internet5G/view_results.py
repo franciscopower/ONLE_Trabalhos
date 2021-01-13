@@ -2,13 +2,14 @@ import pandas as pd
 import numpy as np
 import ray_tracer
 import cv2 as cv
+from InternetObjRestr import objective_function
 
-results = pd.read_csv('internet5G_V2_iteration_cost_5_torres_t1002.csv')
-x = results.values[9,2:]
+results = pd.read_csv('internet5G_V3_iteration_cost_3_torres_t1.csv')
+x = results.values[0,2:]
 x = x.astype(int)
 src_pos=x.reshape(x.shape[0]/2,2)
 
-density = 1
+density = 2
 
 # Dados ----------------------
 bump_map = cv.imread('Internet5G/bump_map_campusV2.jpg', 0)
@@ -29,23 +30,18 @@ restriction_map = cv.resize(restriction_map, (int(restriction_map.shape[1] / sca
 
 power = 0.5 # mW 
 value_min = 0.000000121
+kwargs = {'bump_map': bump_map,
+          'restriction_map': restriction_map,
+          'power': power,
+          'value_min': value_min,
+          'scale_real': scale_real}
 
-intensity_matrix = ray_tracer.intensityMatrix(bump_map,src_pos,power, restriction_map, scale_real, density)
+intensity_matrix,_,_ = ray_tracer.intensityMatrix(bump_map,src_pos,power, restriction_map, scale_real, density)
+# print(intensity_matrix[-1][-3:-1])
 
+funcao_objetivo = objective_function(x, kwargs)
 # Print results
-# print('Objective Function: ' + str(funcao_objtivo))
-# print('Minimum intensity restriction: ' + str(restriction_min_intensity))
-# print('Position restriction: ' + str(restriction_position))
-
-#calculo da percentagem de area com intensidade acima da intensidade minima
-area_disponivel=np.sum((255-bump_map)/255)/density
-area_cob_min = np.where(intensity_matrix > value_min)[0].shape[0]
-percent_area_cob_min = area_cob_min*100/area_disponivel
-
-# print(area_disponivel)
-# print(area_cob_min)
-print('percentagem de area acima da intensidade minima:\n' + str(percent_area_cob_min))
-#########################################################################
+print('Objective Function: ' + str(funcao_objetivo))
 
 
 #visualize result
