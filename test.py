@@ -15,10 +15,18 @@ import matplotlib.pyplot as plt
 
 # print(columns)
 
-data = np.zeros((3,4))
-a = np.array([7,8,9])
+# data = np.zeros((3,4))
+# a = np.array([7,8,9])
 
-data[2][1:] = a
+# data[2][1:] = a
 
-print(data[2][1:])
-print(data)
+# print(data[2][1:])
+# print(data)
+
+a = np.array([
+    [1,2,3,4], 
+    [4,3,2,4], 
+    [1,1,1,1]
+])
+
+print(np.where(a < 2)[0].shape[0])

@@ -27,9 +27,8 @@ bump_map = cv.resize(bump_map, (int(bump_map.shape[1] / scale_factor), int(bump_
 
 restriction_map = cv.resize(restriction_map, (int(restriction_map.shape[1] / scale_factor), int(restriction_map.shape[0] / scale_factor)))
 
-power = 0.5 # mW
+power = 0.5 # mW 
 value_min = 0.000000121
-ntorre=3
 
 intensity_matrix = ray_tracer.intensityMatrix(bump_map,src_pos,power, restriction_map, scale_real, density)
 
@@ -37,6 +36,17 @@ intensity_matrix = ray_tracer.intensityMatrix(bump_map,src_pos,power, restrictio
 # print('Objective Function: ' + str(funcao_objtivo))
 # print('Minimum intensity restriction: ' + str(restriction_min_intensity))
 # print('Position restriction: ' + str(restriction_position))
+
+#calculo da percentagem de area com intensidade acima da intensidade minima
+area_disponivel=np.sum((255-bump_map)/255)/density
+area_cob_min = np.where(intensity_matrix > value_min)[0].shape[0]
+percent_area_cob_min = area_cob_min*100/area_disponivel
+
+# print(area_disponivel)
+# print(area_cob_min)
+print('percentagem de area acima da intensidade minima:\n' + str(percent_area_cob_min))
+#########################################################################
+
 
 #visualize result
 final_visualization = intensity_matrix * 255 / power *100
