@@ -106,7 +106,7 @@ def main():
     }    
     param = {
         'itermax': 10,
-        'npop': 50,
+        'npop': 100,
         'gamma': 1, #1
         'beta0': 1.8,
         'alpha': 0.1, #0.2
