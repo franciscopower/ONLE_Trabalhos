@@ -4,12 +4,12 @@ import ray_tracer
 import cv2 as cv
 from InternetObjRestr import objective_function
 
-results = pd.read_csv('internet5G_V3_iteration_cost_3_torres_t1.csv')
-x = results.values[0,2:]
+results = pd.read_csv('internet5G_V3_iteration_cost_7_torres_t1.csv')
+x = results.values[-1,2:]
 x = x.astype(int)
 src_pos=x.reshape(x.shape[0]/2,2)
 
-density = 2
+density = 1
 
 # Dados ----------------------
 bump_map = cv.imread('Internet5G/bump_map_campusV2.jpg', 0)
@@ -63,7 +63,7 @@ for pos in src_pos:
     heatmap = cv.circle(heatmap, (pos[0]*scale_factor,pos[1]*scale_factor), 10, (255,255,255), -1)
     
 cv.imshow('heatmap', heatmap)
-cv.imshow('inputs', input_maps)
+# cv.imshow('inputs', input_maps)
 cv.imwrite('input_map.png', input_maps)
 
 cv.waitKey(0)
