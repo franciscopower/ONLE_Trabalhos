@@ -4,8 +4,8 @@ import ray_tracer
 import cv2 as cv
 from InternetObjRestr import objective_function
 
-results = pd.read_csv('internet5G_V3_iteration_cost_5_torres_t2.csv')
-x = results.values[9,2:]
+results = pd.read_csv('internet5G_V3_iteration_cost_9_torres_t1.csv')
+x = results.values[-1,2:]
 x = x.astype(int)
 src_pos=x.reshape(x.shape[0]/2,2)
 
