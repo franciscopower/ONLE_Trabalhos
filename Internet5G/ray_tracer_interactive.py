@@ -3,6 +3,9 @@
 import math
 from functools import partial
 
+import ray_tracer
+from InternetObjRestr import objective_function
+
 import cv2 as cv
 import numpy as np
 
@@ -89,44 +92,52 @@ def intensityMatrix():
     light_window = "Light"
     bump_map_window = "Bump Map"
     
-    bump_map = cv.imread('Internet5G/bump_map_campusV2.jpg',0)
-    
-    cv.imshow(bump_map_window, bump_map)
+    # Dados ----------------------
+    bump_map = cv.imread('Internet5G/bump_map_campusV2.jpg', 0)
+    restriction_map = cv.imread('Internet5G/restriction_map_campusV2.jpg', 0)
+
+    # input_maps = np.ndarray((bump_map.shape[0], bump_map.shape[1], 3))
+    # input_maps[:,:,0]=restriction_map - bump_map
+    # input_maps[:,:,1]=0
+    # input_maps[:,:,2]=bump_map
+
     original_size = bump_map.shape
+
     scale_factor = 4
-    
-    bump_map = cv.resize(bump_map, (int(bump_map.shape[1]/scale_factor), int(bump_map.shape[0]/scale_factor)))
-    
-    final_visualization = np.zeros(bump_map.shape)
-    intensity_values = np.zeros(bump_map.shape)
-    
-    power = 100
-    # src_pos = (bump_map.shape[1]/2,bump_map.shape[0]/2)
-    # density = 2
+    scale_real = scale_factor*0.5409 # m/px
+    bump_map = cv.resize(bump_map, (int(bump_map.shape[1] / scale_factor), int(bump_map.shape[0] / scale_factor)))
+
+    restriction_map = cv.resize(restriction_map, (int(restriction_map.shape[1] / scale_factor), int(restriction_map.shape[0] / scale_factor)))
+
+    power = 0.5 # mW 
+    value_min = 0.000000121
+    kwargs = {'bump_map': bump_map,
+            'restriction_map': restriction_map,
+            'power': power,
+            'value_min': value_min,
+            'scale_real': scale_real}
+
+    # print(intensity_matrix[-1][-3:-1])
       
     k = ''
     while k != ord('q'):
                 
         cv.setMouseCallback(light_window, onClick)
         
-        intensity_values = np.zeros(bump_map.shape)
         
         src_pos_scaled = [(int(src_pos[0][0]/scale_factor),int(src_pos[0][1]/scale_factor)),(int(src_pos[1][0]/scale_factor),int(src_pos[1][1]/scale_factor))]
         
 
-        for l in range(0,bump_map.shape[0]-1,density):
-            for c in range(0,bump_map.shape[1]-1,density):
-                intensity = calculateIntensity(src_pos_scaled, (c,l), power, bump_map)
-                intensity_values[l][c] = intensity
+        intensity_matrix,_,_ = ray_tracer.intensityMatrix(bump_map,src_pos,power, restriction_map, scale_real, density)
                 
-        final_visualization = intensity_values*255/power *10
+        final_visualization = intensity_matrix*255/power *10
 
         final_visualization = cv.resize(final_visualization, (original_size[1], original_size[0]))
 
         cv.imshow(light_window, final_visualization) 
         
         if k == ord('r'):
-            print(result_objctive_function(bump_map, intensity_values))
+            print(objective_function(x, kwargs))
 
         k = cv.waitKey(1)
 
